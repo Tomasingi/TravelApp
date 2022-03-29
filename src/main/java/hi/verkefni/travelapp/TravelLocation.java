@@ -1,7 +1,7 @@
 package hi.verkefni.travelapp;
 
 public class TravelLocation {
-    public static final String HOFUDBORGARSVAEDI = "Höfuðborgarsvæði";
+    public static final String HOFUDBORGARSVAEDID = "Höfuðborgarsvæðið";
     public static final String SUDURNES = "Suðurnes";
     public static final String VESTURLAND = "Vesturland";
     public static final String VESTFIRDIR = "Vestfirðir";

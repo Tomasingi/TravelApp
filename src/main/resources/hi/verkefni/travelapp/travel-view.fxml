@@ -1,14 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="hi.verkefni.travelapp.TravelView"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<fx:root alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" prefHeight="50.0" style="-fx-background-color: #77F;">
+         <children>
+            <Label text="The amazing travel application">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox minHeight="-Infinity" prefHeight="350.0" prefWidth="150.0" spacing="5.0" style="-fx-border-color: #CCC;">
+               <children>
+                  <Label text="Search constraints" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Label>
+                  <CheckBox fx:id="flightsCheck" mnemonicParsing="false" onAction="#searchHandler" text="Flights">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></CheckBox>
+                  <CheckBox fx:id="hotelsCheck" mnemonicParsing="false" onAction="#searchHandler" text="Hotels">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></CheckBox>
+                  <CheckBox fx:id="daytoursCheck" mnemonicParsing="false" onAction="#searchHandler" text="Day tours">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></CheckBox>
+                  <Label text="Sort by:">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <ChoiceBox fx:id="sortBy" prefWidth="150.0" value="Date">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="Date" />
+                           <String fx:value="Price" />
+                        </FXCollections>
+                     </items>
+                  </ChoiceBox>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+            <VBox prefWidth="300.0" style="-fx-border-color: #CCC;">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0" spacing="5.0">
+                     <children>
+                        <ImageView fx:id="searchIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                        <TextField fx:id="searchBar" maxWidth="1.7976931348623157E308" onAction="#searchHandler" />
+                     </children>
+                  </HBox>
+                  <ScrollPane prefHeight="310.0" prefWidth="200.0" style="-fx-background-color: transparent;">
+                    <content>
+                      <AnchorPane fx:id="fxMainView" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="350.0" prefWidth="150.0" style="-fx-border-color: #CCC;">
+               <children>
+                  <Label text="Selected items">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</fx:root>

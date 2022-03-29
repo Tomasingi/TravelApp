@@ -5,13 +5,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Reservation {
-    private String name;
-    private int price;
-    private final List<Review> reviews = new ArrayList<>();
-    private TravelLocation beginningLocation;
-    private TravelLocation endLocation;
-    private LocalDate beginningDate;
-    private LocalDate endDate;
+    protected int id;
+    protected String name;
+    protected int price;
+    protected final List<Review> reviews = new ArrayList<>();
+    protected TravelLocation beginningLocation;
+    protected TravelLocation endLocation;
+    protected LocalDate beginningDate;
+    protected LocalDate endDate;
 
+    public String getName() {
+        return name;
+    }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public  List<Review> getReviews() {
+        return reviews;
+    }
+
+    public TravelLocation getBeginningLocation() {
+        return beginningLocation;
+    }
+
+    public TravelLocation getEndLocation() {
+        return endLocation;
+    }
+
+    public LocalDate getBeginningDate() {
+        return beginningDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
 }

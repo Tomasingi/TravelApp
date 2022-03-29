@@ -53,7 +53,7 @@ public class LoginView extends VBox {
         }
 
         if (!failed) {
-            System.out.println("Success!");
+            travelController.travel();
         }
     }
 

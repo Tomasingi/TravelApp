@@ -81,6 +81,7 @@ public class SignupView extends VBox {
                     fxPassword.getText()
             );
             travelController.create(newUser);
+            travelController.travel();
         }
     }
 

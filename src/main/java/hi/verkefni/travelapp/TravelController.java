@@ -11,6 +11,7 @@ public class TravelController {
     private final UserController userController = new UserController();
     private final LoginView loginView = new LoginView();
     private final SignupView signupView = new SignupView();
+    private final TravelView travelView = new TravelView();
 
     public void initialize() {
         signupView.addLink(this);
@@ -28,8 +29,9 @@ public class TravelController {
         viewPort.getChildren().add(loginView);
     }
 
-    public void clearView() {
+    public void travel() {
         viewPort.getChildren().clear();
+        viewPort.getChildren().add(travelView);
     }
 
     public void create(User user) {
