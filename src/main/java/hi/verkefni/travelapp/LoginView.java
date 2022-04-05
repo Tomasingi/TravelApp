@@ -32,24 +32,38 @@ public class LoginView extends VBox {
     }
 
     public void initialize() {
-        fxEmailError.visibleProperty().set(false);
-        fxPasswordError.visibleProperty().set(false);
+    }
+
+    private void toggleEmailError(boolean b) {
+        if (b) {
+            fxEmailError.setText("Email required");
+        } else {
+            fxEmailError.setText("");
+        }
+    }
+
+    private void togglePasswordError(boolean b) {
+        if (b) {
+            fxPasswordError.setText("Incorrect password");
+        } else {
+            fxPasswordError.setText("");
+        }
     }
 
     public void loginHandler() {
         boolean failed = false;
 
         if (fxEmail.getText().equals("")) {
-            fxEmailError.visibleProperty().set(true);
+            toggleEmailError(true);
             failed = true;
         } else {
-            fxEmailError.visibleProperty().set(false);
+            toggleEmailError(false);
         }
         if (fxPassword.getText().equals("")) {
-            fxPasswordError.visibleProperty().set(true);
+            togglePasswordError(true);
             failed = true;
         } else {
-            fxPasswordError.visibleProperty().set(false);
+            togglePasswordError(false);
         }
 
         if (!failed) {

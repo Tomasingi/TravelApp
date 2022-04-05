@@ -40,38 +40,66 @@ public class SignupView extends VBox {
     }
 
     public void initialize() {
-        fxNameError.visibleProperty().set(false);
-        fxEmailError.visibleProperty().set(false);
-        fxPasswordError.visibleProperty().set(false);
-        fxConfirmPasswordError.visibleProperty().set(false);
+    }
+
+    private void toggleNameError(boolean b) {
+        if (b) {
+            fxNameError.setText("Name required");
+        } else {
+            fxNameError.setText("");
+        }
+    }
+
+    private void toggleEmailError(boolean b) {
+        if (b) {
+            fxEmailError.setText("Email required");
+        } else {
+            fxEmailError.setText("");
+        }
+    }
+
+    private void togglePasswordError(boolean b) {
+        if (b) {
+            fxPasswordError.setText("Password required");
+        } else {
+            fxPasswordError.setText("");
+        }
+    }
+
+    private void toggleConfirmPasswordError(boolean b) {
+        if (b) {
+            fxConfirmPasswordError.setText("Passwords don't match");
+        } else {
+            fxConfirmPasswordError.setText("");
+        }
     }
 
     public void createAccountHandler() {
         boolean failed = false;
 
         if (fxName.getText().equals("")) {
-            fxNameError.visibleProperty().set(true);
+            toggleNameError(true);
             failed = true;
         } else {
-            fxNameError.visibleProperty().set(false);
+            toggleNameError(false);
         }
         if (fxEmail.getText().equals("")) {
-            fxEmailError.visibleProperty().set(true);
+            toggleEmailError(true);
             failed = true;
         } else {
-            fxEmailError.visibleProperty().set(false);
+            toggleEmailError(false);
         }
         if (fxPassword.getText().equals("")) {
-            fxPasswordError.visibleProperty().set(true);
+            togglePasswordError(true);
             failed = true;
         } else {
-            fxPasswordError.visibleProperty().set(false);
+            togglePasswordError(false);
         }
         if (!fxPassword.getText().equals(fxConfirmPassword.getText())) {
-            fxConfirmPasswordError.visibleProperty().set(true);
+            toggleConfirmPasswordError(true);
             failed = true;
         } else {
-            fxConfirmPasswordError.visibleProperty().set(false);
+            toggleConfirmPasswordError(false);
         }
 
         if (!failed) {

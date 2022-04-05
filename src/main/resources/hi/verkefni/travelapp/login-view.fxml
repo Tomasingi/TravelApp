@@ -30,8 +30,8 @@
                 <Label text="Password:" GridPane.rowIndex="1" />
                 <TextField fx:id="fxEmail" GridPane.columnIndex="1" />
                 <PasswordField fx:id="fxPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Label fx:id="fxEmailError" text="Email required" textFill="RED" GridPane.columnIndex="2" />
-                <Label fx:id="fxPasswordError" text="Password required" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Label fx:id="fxEmailError" textFill="RED" GridPane.columnIndex="2" />
+                <Label fx:id="fxPasswordError" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             </children>
             <VBox.margin>
                 <Insets />
@@ -39,7 +39,7 @@
         </GridPane>
         <HBox alignment="CENTER" spacing="15.0">
             <children>
-                <Button fx:id="fxLogin" mnemonicParsing="false" onAction="#loginHandler" text="Log in" />
+                <Button fx:id="fxLogin" defaultButton="true" mnemonicParsing="false" onAction="#loginHandler" text="Log in" />
                 <Button fx:id="fxSignup" mnemonicParsing="false" onAction="#signupHandler" text="Need an account?" />
             </children>
         </HBox>

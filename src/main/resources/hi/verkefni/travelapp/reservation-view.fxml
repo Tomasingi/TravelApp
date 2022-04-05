@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<fx:root style="-fx-border-color: #777;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root spacing="10.0" style="-fx-border-color: #777; -fx-background-color: #FFF; fx-border-radius: 15;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox>
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
             <ImageView fx:id="fxMainIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
             <Label fx:id="fxName">
@@ -16,14 +16,36 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
+            <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="fxPrice" textFill="#00bb00">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
          </children>
       </HBox>
-      <HBox>
+      <HBox alignment="CENTER_LEFT">
          <children>
-            <ImageView fx:id="fxLandshluti" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="fxLandshluti2" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="fxDates" />
+            <Label fx:id="fxDescription" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
+         <children>
+            <ImageView fx:id="fxLandshluti" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="fxArrow" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="fxLandshluti2" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
+            <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="fxDates" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </fx:root>

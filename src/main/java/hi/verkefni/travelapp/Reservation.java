@@ -8,6 +8,7 @@ public abstract class Reservation {
     protected int id;
     protected String name;
     protected int price;
+    protected String description;
     protected final List<Review> reviews = new ArrayList<>();
     protected TravelLocation beginningLocation;
     protected TravelLocation endLocation;
@@ -20,6 +21,10 @@ public abstract class Reservation {
 
     public int getPrice() {
         return price;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public  List<Review> getReviews() {
