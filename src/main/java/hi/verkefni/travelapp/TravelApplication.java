@@ -16,7 +16,6 @@ public class TravelApplication extends Application {
         stage.setScene(scene);
         TravelController travelController = fxmlLoader.getController();
         travelController.setStage(stage);
-        travelController.resize();
         stage.show();
     }
 

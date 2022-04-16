@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root spacing="10.0" style="-fx-border-color: #777; -fx-background-color: #FFF; fx-border-radius: 15;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root spacing="10.0" style="-fx-border-color: #777; -fx-background-color: #FFF; -fx-border-radius: 10; -fx-background-radius: 10;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>

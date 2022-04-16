@@ -1,6 +1,5 @@
 package hi.verkefni.travelapp;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,32 +20,38 @@ public class TravelView extends VBox {
     @FXML
     private VBox fxSearchResults;
     @FXML
-    private ImageView searchIcon;
+    private ImageView fxSearchIcon;
     @FXML
-    private CheckBox flightsCheck;
+    private CheckBox fxFlightsCheck;
     @FXML
-    private CheckBox hotelsCheck;
+    private CheckBox fxHotelsCheck;
     @FXML
-    private CheckBox daytoursCheck;
+    private CheckBox fxDaytoursCheck;
     @FXML
     private DatePicker fxBeginningDate;
     @FXML
     private DatePicker fxEndDate;
     @FXML
-    private TextField searchBar;
+    private TextField fxSearchBar;
     @FXML
-    private ChoiceBox sortBy;
+    private ChoiceBox<String> fxSortBy;
     @FXML
     private AnchorPane fxMainView;
     @FXML
     private AnchorPane fxSelected;
+    @FXML
+    private Label fxSubtotal;
+    @FXML
+    private ImageView fxCart;
 
+    private int subtotal = 0;
     private List<Reservation> reservations;
     private final List<Reservation> slice = new ArrayList<>();
     private final List<Reservation> selected = new ArrayList<>();
     private final Comparator<Reservation> compareByDate = Comparator.comparing(Reservation::getBeginningDate);
     private final Comparator<Reservation> compareByPrice = Comparator.comparing(Reservation::getPrice);
     private final Comparator<Reservation> compareByName = Comparator.comparing(Reservation::getName);
+    private TravelController travelController;
 
     public TravelView() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("travel-view.fxml"));
@@ -76,16 +81,17 @@ public class TravelView extends VBox {
     }
 
     public void initialize() {
-        searchIcon.setImage(new Image(getClass().getResourceAsStream("images/icons/search.png")));
+        fxSearchIcon.setImage(new Image(getClass().getResourceAsStream("images/icons/search.png")));
+        fxCart.setImage(new Image(getClass().getResourceAsStream("images/icons/cart.png")));
     }
 
     public void searchHandler() {
         slice.clear();
 
-        boolean flights = flightsCheck.isSelected();
-        boolean hotels = hotelsCheck.isSelected();
-        boolean daytours = daytoursCheck.isSelected();
-        String[] searchWords = searchBar.getText().split(" ");
+        boolean flights = fxFlightsCheck.isSelected();
+        boolean hotels = fxHotelsCheck.isSelected();
+        boolean daytours = fxDaytoursCheck.isSelected();
+        String[] searchWords = fxSearchBar.getText().split(" ");
 
         for (Reservation r : reservations) {
             boolean rightType = flights && (r instanceof Flight)
@@ -104,7 +110,7 @@ public class TravelView extends VBox {
             }
         }
 
-        switch (sortBy.valueProperty().getValue().toString()) {
+        switch (fxSortBy.valueProperty().getValue().toString()) {
             case "Date":
                 slice.sort(compareByDate);
                 break;
@@ -148,23 +154,24 @@ public class TravelView extends VBox {
         }
         int numClicks = e.getClickCount();
         if (numClicks == 2) {
-            if (!selected.contains(reservationView.getReservation())) {
-                selected.add(reservationView.getReservation());
-                renderSelected();
+            Reservation reservation = reservationView.getReservation();
+            if (!selected.contains(reservation)) {
+                selected.add(reservation);
+                selected.sort(compareByDate);
+                int index = selected.indexOf(reservation);
+                BookedView bookedView = new BookedView(reservation);
+                bookedView.link(this);
+                fxSelected.getChildren().add(index, bookedView);
+
+                subtotal += reservation.getPrice();
+                updateSubtotalText();
             }
         }
     }
 
-    private void renderSelected() {
-        selected.sort(compareByDate);
-        fxSelected.getChildren().clear();
-        int counter = 0;
-        for (Reservation r : selected) {
-            BookedView view = new BookedView(r);
-            view.setIndex(counter);
-            fxSelected.getChildren().add(view);
-            counter++;
-        }
+    public void remove(Reservation reservation) {
+        fxSelected.getChildren().remove(selected.indexOf(reservation));
+        selected.remove(reservation);
     }
 
     private void renderSearch() {
@@ -177,5 +184,36 @@ public class TravelView extends VBox {
             fxMainView.getChildren().add(reservationView);
             counter++;
         }
+    }
+
+    public void updateAmount() {
+        calculateSubtotal();
+    }
+
+    public void updateAmount(int amount) {
+        subtotal += amount;
+        updateSubtotalText();
+    }
+
+    private void calculateSubtotal() {
+        int newSubtotal = 0;
+        for (Node view : fxSelected.getChildren()) {
+            BookedView bookedView = (BookedView) view;
+            newSubtotal += bookedView.priceProperty().getValue();
+        }
+        subtotal = newSubtotal;
+        updateSubtotalText();
+    }
+
+    private void updateSubtotalText() {
+        fxSubtotal.setText("Subtotal: " + subtotal + " ISK");
+    }
+
+    public void addLink(TravelController travelController) {
+        this.travelController = travelController;
+    }
+
+    public void cartHandler() {
+        travelController.goToCart(selected);
     }
 }

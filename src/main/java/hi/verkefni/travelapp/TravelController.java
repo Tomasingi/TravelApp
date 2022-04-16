@@ -8,6 +8,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.List;
+
 public class TravelController {
     @FXML
     private Pane viewPort;
@@ -19,18 +21,20 @@ public class TravelController {
     private final LoginView loginView = new LoginView();
     private final SignupView signupView = new SignupView();
     private final TravelView travelView = new TravelView();
+    private final PaymentView paymentView = new PaymentView();
 
     public void initialize() {
         signupView.addLink(this);
         loginView.addLink(this);
+        travelView.addLink(this);
+        paymentView.addLink(this);
         setTimeline();
         timeline.play();
         signup();
     }
 
     private void setTimeline() {
-        KeyFrame k = new KeyFrame(Duration.millis(20),
-                e -> resize());
+        KeyFrame k = new KeyFrame(Duration.millis(20), e -> resize());
         timeline = new Timeline(k);
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
@@ -38,20 +42,22 @@ public class TravelController {
     public void signup() {
         viewPort.getChildren().clear();
         viewPort.getChildren().add(signupView);
-        resize();
     }
 
     public void login() {
         viewPort.getChildren().clear();
         viewPort.getChildren().add(loginView);
-        resize();
     }
 
     public void travel() {
         viewPort.getChildren().clear();
         viewPort.getChildren().add(travelView);
         travelView.searchHandler();
-        resize();
+    }
+
+    public void goToCart(List<Reservation> selected) {
+        viewPort.getChildren().clear();
+        viewPort.getChildren().add(paymentView);
     }
 
     public void resize() {

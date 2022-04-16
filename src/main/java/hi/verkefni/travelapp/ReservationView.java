@@ -1,6 +1,5 @@
 package hi.verkefni.travelapp;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,7 +56,7 @@ public class ReservationView extends VBox {
         setReservation();
     }
 
-    private void setImageFromLocation(ImageView imageView, String location) {
+    private void setImageFromLocation(ImageView imageView, int location) {
         switch (location) {
             case TravelLocation.AUSTURLAND:
                 imageView.setImage(new Image(getClass().getResourceAsStream("images/locations/Austurland.png")));
@@ -98,7 +97,7 @@ public class ReservationView extends VBox {
         } else return;
 
         fxName.setText(reservation.getName());
-        fxPrice.setText(reservation.getPrice() + "$");
+        fxPrice.setText(reservation.getPrice() + " ISK");
         if (reservation instanceof DayTour) {
             fxDescription.setText(((DayTour) reservation).getType() + ": " + reservation.getDescription());
         } else {
