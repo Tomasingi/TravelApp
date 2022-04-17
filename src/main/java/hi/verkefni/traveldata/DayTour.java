@@ -2,9 +2,7 @@ package hi.verkefni.traveldata;
 
 import java.time.LocalDate;
 
-public class DayTour {
-    private Integer id;
-    private String name;
+public class DayTour extends Reservation {
     private LocalDate date;
     private TravelLocation location;
     private String type;

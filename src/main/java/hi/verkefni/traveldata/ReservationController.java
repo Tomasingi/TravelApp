@@ -1,8 +1,9 @@
 package hi.verkefni.traveldata;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReservationController {
-    private ArrayList<DayTour> dayTours = new ArrayList<>();
+    private final List<DayTour> dayTours = new ArrayList<>();
     private DayTour bookDayTour;
 
 

@@ -1,5 +1,7 @@
 package hi.verkefni.travelapp;
 
+import hi.verkefni.traveldata.Reservation;
+
 import java.util.*;
 
 public class User {

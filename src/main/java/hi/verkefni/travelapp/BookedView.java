@@ -1,5 +1,6 @@
 package hi.verkefni.travelapp;
 
+import hi.verkefni.traveldata.Reservation;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

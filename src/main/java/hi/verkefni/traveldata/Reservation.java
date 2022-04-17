@@ -1,13 +1,13 @@
-package hi.verkefni.travelapp;
+package hi.verkefni.traveldata;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Reservation {
-    protected int id;
+    protected Integer id;
     protected String name;
-    protected int price;
+    protected Integer price;
     protected String description;
     protected final List<Review> reviews = new ArrayList<>();
     protected TravelLocation beginningLocation;

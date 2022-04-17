@@ -1,5 +1,8 @@
 package hi.verkefni.travelapp;
 
+import hi.verkefni.traveldata.Reservation;
+import hi.verkefni.traveldata.TravelLocation;
+
 import java.time.LocalDate;
 
 public class DayTour extends Reservation {

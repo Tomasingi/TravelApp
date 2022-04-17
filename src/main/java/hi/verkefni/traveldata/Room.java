@@ -15,6 +15,7 @@ enum Size{
         return RoomType;
     }
 }
+
 public class Room {
 
     private int ID;

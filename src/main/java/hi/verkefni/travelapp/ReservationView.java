@@ -1,5 +1,7 @@
 package hi.verkefni.travelapp;
 
+import hi.verkefni.traveldata.Reservation;
+import hi.verkefni.traveldata.TravelLocation;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -106,7 +108,7 @@ public class ReservationView extends VBox {
 
         setImageFromLocation(fxLandshluti, reservation.getBeginningLocation().getLocation());
 
-        if (reservation.getEndLocation() != reservation.getBeginningLocation()) {
+        if (!(reservation.getEndLocation().equals(reservation.getBeginningLocation()))) {
             fxArrow.setImage(new Image(getClass().getResourceAsStream("images/icons/right-arrow.png")));
             setImageFromLocation(fxLandshluti2, reservation.getEndLocation().getLocation());
         } else {

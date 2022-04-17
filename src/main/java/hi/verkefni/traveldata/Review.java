@@ -1,4 +1,4 @@
-package hi.verkefni.travelapp;
+package hi.verkefni.traveldata;
 
 public class Review {
     private String review;
