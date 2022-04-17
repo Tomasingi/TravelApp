@@ -6,7 +6,7 @@ public class HotelSearchController {
 
     public static Room findRoomById(int id){
         List<Room> Rooms = DataFactory.selectAllRooms();
-        Rooms.removeIf(i -> i.getHotelID() != id);
+        Rooms.removeIf(i -> i.getHotelId() != id);
         return Rooms.get(0);
     }
 

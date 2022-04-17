@@ -9,7 +9,7 @@ public class UserSearchController {
     public static User SearchById(int id){
         List<User> Users = selectAllUsers();
 
-        Users.removeIf(i -> i.getID() != id);
+        Users.removeIf(i -> i.getId() != id);
         return Users.get(0);
 
     }

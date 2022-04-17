@@ -18,18 +18,18 @@ enum Size{
 
 public class Room {
 
-    private int ID;
+    private int Id;
     private Size type;
     private int price;
     private int capacity;
-    private int hotelID;
+    private int hotelId;
 
-    public Room(int ID, Size type, int price, int capacity,int hotelID) {
-        this.ID = ID;
+    public Room(int Id, Size type, int price, int capacity,int hotelId) {
+        this.Id = Id;
         this.type = type;
         this.price = price;
         this.capacity = capacity;
-        this.hotelID = hotelID; // tengja þetta við ID í hótel klasa
+        this.hotelId = hotelId; // tengja þetta við Id í hótel klasa
     }
 
     public Size getSize() {
@@ -40,20 +40,20 @@ public class Room {
         this.type = type;
     }
 
-    public int getHotelID() {
-        return hotelID;
+    public int getHotelId() {
+        return hotelId;
     }
 
-    public void setHotelID(int hotelID) {
-        this.hotelID = hotelID;
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return Id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
     public int getPrice() {

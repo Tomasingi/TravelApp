@@ -104,7 +104,7 @@ public class DataFactory {
 
             try {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, user.getID());
+                pstmt.setInt(1, user.getId());
                 pstmt.setString(2, user.getName());
                 pstmt.setString(3, user.getEmail());
 
@@ -298,7 +298,7 @@ public class DataFactory {
             try {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, freservation.getId());
-                pstmt.setInt(2, freservation.getUser().getID());
+                pstmt.setInt(2, freservation.getUser().getId());
                 pstmt.setInt(3, freservation.getPassengers());
                 pstmt.setInt(4, freservation.getFlight().getId());
                 pstmt.setInt(5, freservation.getSeat().getId());
@@ -333,9 +333,9 @@ public class DataFactory {
                 LocalDate date = hotelReservation.getDate();
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, hotelReservation.getId());
-                pstmt.setInt(2, hotelReservation.getUser().getID());
-                pstmt.setInt(3, hotelReservation.getRoom().getID());
-                pstmt.setInt(4, hotelReservation.getHotel().getID());
+                pstmt.setInt(2, hotelReservation.getUser().getId());
+                pstmt.setInt(3, hotelReservation.getRoom().getId());
+                pstmt.setInt(4, hotelReservation.getHotel().getId());
                 pstmt.setString(5, date.toString());
 
                 pstmt.executeUpdate();
