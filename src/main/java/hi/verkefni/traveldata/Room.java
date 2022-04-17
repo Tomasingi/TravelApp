@@ -7,7 +7,7 @@ enum Size{
 
     private final String RoomType;
 
-    private Size(String RoomType){
+    Size(String RoomType){
         this.RoomType = RoomType;
     }
 

@@ -1,25 +1,23 @@
 package hi.verkefni.traveldata;
-import java.util.ArrayList;
-import java.util.List;
 
 public class User {
-    private int ID;
+    private int Id;
     private String name;
     private String email;
 
 
-    public User(int ID, String name, String email) {
-        this.ID = ID;
+    public User(int Id, String name, String email) {
+        this.Id = Id;
         this.name = name;
         this.email = email;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return Id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
     public String getName() {
