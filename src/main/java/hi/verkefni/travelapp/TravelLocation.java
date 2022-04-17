@@ -27,25 +27,16 @@ public class TravelLocation {
     }
 
     public String getLocationString() {
-        switch (location) {
-            case 1:
-                return "Höfuðborgarsvæðið";
-            case 2:
-                return "Suðurnes";
-            case 3:
-                return "Vesturland";
-            case 4:
-                return "Vestfirðir";
-            case 5:
-                return "Norðurland vestra";
-            case 6:
-                return "Norðurland eystra";
-            case 7:
-                return "Austurland";
-            case 8:
-                return "Suðurland";
-            default:
-                return "";
-        }
+        return switch (location) {
+            case 1 -> "Höfuðborgarsvæðið";
+            case 2 -> "Suðurnes";
+            case 3 -> "Vesturland";
+            case 4 -> "Vestfirðir";
+            case 5 -> "Norðurland vestra";
+            case 6 -> "Norðurland eystra";
+            case 7 -> "Austurland";
+            case 8 -> "Suðurland";
+            default -> "";
+        };
     }
 }

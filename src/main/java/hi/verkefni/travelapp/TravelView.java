@@ -12,9 +12,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class TravelView extends VBox {
     @FXML
@@ -91,9 +89,37 @@ public class TravelView extends VBox {
         boolean flights = fxFlightsCheck.isSelected();
         boolean hotels = fxHotelsCheck.isSelected();
         boolean daytours = fxDaytoursCheck.isSelected();
-        String[] searchWords = fxSearchBar.getText().split(" ");
+        String[] searchWords = fxSearchBar.getText().toLowerCase().split(" ");
 
         for (Reservation r : reservations) {
+            // Check text
+            boolean rightText = true;
+
+            Set<String> matchWords = new TreeSet<>();
+
+            String[] nameArray = r.getName().toLowerCase().split(" ");
+            matchWords.addAll(Arrays.asList(nameArray));
+            String[] descriptionArray = r.getDescription().toLowerCase().split(" ");
+            matchWords.addAll(Arrays.asList(descriptionArray));
+
+            matchWords.add(r.getBeginningLocation().getName().toLowerCase());
+            matchWords.add(r.getBeginningLocation().getLocationString().toLowerCase());
+            matchWords.add(r.getEndLocation().getName().toLowerCase());
+            matchWords.add(r.getEndLocation().getLocationString().toLowerCase());
+
+            for (String s : searchWords) {
+                if (s != "") {
+                    if (!matchWords.contains(s)) {
+                        rightText = false;
+                        break;
+                    }
+                }
+            }
+            if (!rightText) {
+                continue;
+            }
+
+            // Check type and date restrictions
             boolean rightType = flights && (r instanceof Flight)
                     || hotels && (r instanceof Hotel)
                     || daytours && (r instanceof DayTour)
@@ -110,16 +136,12 @@ public class TravelView extends VBox {
             }
         }
 
-        switch (fxSortBy.valueProperty().getValue().toString()) {
-            case "Date":
-                slice.sort(compareByDate);
-                break;
-            case "Price":
-                slice.sort(compareByPrice);
-                break;
-            default:
-                slice.sort(compareByName);
-                break;
+
+        // Sort results
+        switch (fxSortBy.valueProperty().getValue()) {
+            case "Date" -> slice.sort(compareByDate);
+            case "Price" -> slice.sort(compareByPrice);
+            default -> slice.sort(compareByName);
         }
 
         renderSearch();
