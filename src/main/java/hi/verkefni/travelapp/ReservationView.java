@@ -1,5 +1,6 @@
 package hi.verkefni.travelapp;
 
+import hi.verkefni.traveldata.DayTour;
 import hi.verkefni.traveldata.Reservation;
 import hi.verkefni.traveldata.TravelLocation;
 import javafx.beans.property.SimpleBooleanProperty;

@@ -2,6 +2,7 @@ package hi.verkefni.traveldata;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DayTourController {
 
@@ -19,10 +20,9 @@ public class DayTourController {
     }*/
 
     public int findNextIdDayTour() {
-        ArrayList<DayTour> Tours = new ArrayList<>();
-        Tours = (ArrayList<DayTour>) DataFactory.selectAllDayTour();
+        List<Reservation> Tours = DataFactory.selectAllDayTour();
         int id = Tours.get(0).getId();
-        for (DayTour tour : Tours) {
+        for (Reservation tour : Tours) {
             if (tour.getId() > id) {
                 id = tour.getId();
             }

@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class DataFactory {
-    private static final String URL = "jdbc:sqlite:C:\\Users\\almar\\Documents\\Haskoli\\Vor_2022\\TrounHugbunadar\\THB_DB.db";
+    private static final String URL = "jdbc:sqlite:/home/tomas/Desktop/THB_DB.db";
 
     //INSERT KLASAR
     public static void insertDayTour(DayTour dayTour) {
@@ -89,7 +89,7 @@ public class DataFactory {
         }
     }
 
-    public void insertUser(User user) {
+    public static void insertUser(User user) {
         String sql = "INSERT INTO User(Id, name, email) VALUES(?,?,?)";
         Connection conn = null;
         try {
@@ -120,7 +120,7 @@ public class DataFactory {
         }
     }
 
-    public void insertSeat(Seat seat) {
+    public static void insertSeat(Seat seat) {
         String sql = "INSERT INTO Seat(id, price, occupied) VALUES(?,?,?)";
         Connection conn = null;
         try {
@@ -151,7 +151,7 @@ public class DataFactory {
         }
     }
 
-    public void insertAirplane(Airplane ap) {
+    public static void insertAirplane(Airplane ap) {
         String sql = "INSERT INTO Airplane(id, seat1_id) VALUES(?,?)";
         Connection conn = null;
         try {
@@ -181,7 +181,7 @@ public class DataFactory {
         }
     }
 
-    public void insertArrival(Arrival arrival) {
+    public static void insertArrival(Arrival arrival) {
         String sql = "INSERT INTO Arrival(id, airport_id, location_id, time) VALUES(?,?,?,?)";
         Connection conn = null;
         try {
@@ -214,7 +214,7 @@ public class DataFactory {
         }
     }
 
-    public void insertDeparture(Departure departure) {
+    public static void insertDeparture(Departure departure) {
         String sql = "INSERT INTO Departure(id, airport_id, location_id, time) VALUES(?,?,?,?)";
         Connection conn = null;
         try {
@@ -247,7 +247,7 @@ public class DataFactory {
         }
     }
 
-    public void insertFlight(Flight flight) {
+    public static void insertFlight(Flight flight) {
         String sql = "INSERT INTO Flight(id, date, price, arrival_id, departure_id, plane_id) VALUES(?,?,?,?,?,?)";
         Connection conn = null;
         try {
@@ -282,7 +282,7 @@ public class DataFactory {
         }
     }
 
-    public void insertFlightReservation(FlightReservation freservation) {
+    public static void insertFlightReservation(FlightReservation freservation) {
         String sql = "INSERT INTO FlightReservations(id, user_id, passangers, flight_id, seat_id, bothWays) VALUES(?,?,?,?,?,?)";
         Connection conn = null;
         try {
@@ -316,7 +316,7 @@ public class DataFactory {
         }
     }
 
-    public void insertHotelReservation(HotelReservation hotelReservation){
+    public static void insertHotelReservation(HotelReservation hotelReservation){
         String sql = "INSERT INTO HotelReservations(id, user_id, room_id, hotel_id, date) VALUES(?,?,?,?,?)";
         Connection conn = null;
         try {
@@ -384,7 +384,7 @@ public class DataFactory {
 
 
     //SELECT KLASSAR
-    public static List<DayTour> selectAllDayTour() {
+    public static List<Reservation> selectAllDayTour() {
         String sql = "SELECT * FROM DayTour;";
         Connection conn = null;
         try {
@@ -395,7 +395,7 @@ public class DataFactory {
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
 
-                List<DayTour> Daytours = new ArrayList<>();
+                List<Reservation> Daytours = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
                     Daytours.add(new DayTour(rs.getInt(1), rs.getString(2), LocalDate.parse(rs.getString(13)), LocationSearch.findLocationById(rs.getInt(12)), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getString(10), rs.getInt(11)));
