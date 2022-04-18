@@ -408,15 +408,15 @@ public class DataFactory {
                 List<DTReservation> Daytoursreservation = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int reservationID = rs.getInt(1);
-                    int UserID = rs.getInt(2);
+                    int reservationId = rs.getInt(1);
+                    int UserId = rs.getInt(2);
                     int AmountOfP = rs.getInt(3);
-                    int DaytourID = rs.getInt(4);
+                    int DaytourId = rs.getInt(4);
 
-                    DayTour x = TourSearchController.SearchById(DaytourID);
-                    User n = UserSearchController.SearchById(UserID);
+                    DayTour x = TourSearchController.SearchById(DaytourId);
+                    User n = UserSearchController.SearchById(UserId);
 
-                    Daytoursreservation.add(new DTReservation(n, x, AmountOfP, reservationID));
+                    Daytoursreservation.add(new DTReservation(n, x, AmountOfP, reservationId));
                 }
 
                 return Daytoursreservation;
@@ -452,11 +452,11 @@ public class DataFactory {
                 List<User> Users = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     String name = rs.getString(2);
                     String email = rs.getString(3);
 
-                    Users.add(new User(Id, name, email));
+                    Users.add(new User(id, name, email));
                 }
 
                 return Users;
@@ -492,10 +492,10 @@ public class DataFactory {
                 List<TravelLocation> Loc = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     String name = rs.getString(2);
 
-                    Loc.add(new TravelLocation(name, Id));
+                    Loc.add(new TravelLocation(name, id));
                 }
 
                 return Loc;
@@ -531,11 +531,11 @@ public class DataFactory {
                 List<Reservations> Reserv = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     int UserId = rs.getInt(2);
                     int ReservId = rs.getInt(3);
 
-                    Reserv.add(new Reservations(Id, UserId, ReservId));
+                    Reserv.add(new Reservations(id, UserId, ReservId));
                 }
 
                 return Reserv;
@@ -571,12 +571,12 @@ public class DataFactory {
                 List<Airport> Airports = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     String shortname = rs.getString(2);
                     String name = rs.getString(3);
                     //int location = rs.getInt(4);
 
-                    Airports.add(new Airport(Id, shortname, name));
+                    Airports.add(new Airport(id, shortname, name));
                 }
 
                 return Airports;
@@ -612,12 +612,12 @@ public class DataFactory {
                 List<Seat> Seats = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     int price = rs.getInt(2);
                     int occupied = rs.getInt(3);
 
 
-                    Seats.add(new Seat(Id, price));
+                    Seats.add(new Seat(id, price));
                 }
 
                 return Seats;
@@ -653,12 +653,12 @@ public class DataFactory {
                 List<Airplane> Airplanes = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     int seatId = rs.getInt(2);
 
                     Seat x = FlightSearchController.findSeatById(seatId);
 
-                    Airplanes.add(new Airplane(Id, x));
+                    Airplanes.add(new Airplane(id, x));
                 }
 
                 return Airplanes;
@@ -694,12 +694,12 @@ public class DataFactory {
                 List<Arrival> Arrivals = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     Airport airport = FlightSearchController.findAirportById(rs.getInt(2));
                     TravelLocation loc = LocationSearch.findLocationById(rs.getInt(3));
                     LocalDate d = LocalDate.parse(rs.getString(4));
 
-                    Arrivals.add(new Arrival(Id, airport, loc, d));
+                    Arrivals.add(new Arrival(id, airport, loc, d));
                 }
 
                 return Arrivals;
@@ -735,12 +735,12 @@ public class DataFactory {
                 List<Departure> Departures = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     Airport ap = FlightSearchController.findAirportById(rs.getInt(2));
                     TravelLocation loc = LocationSearch.findLocationById(rs.getInt(3));
                     LocalDate d = LocalDate.parse(rs.getString(4));
 
-                    Departures.add(new Departure(Id, ap, loc, d));
+                    Departures.add(new Departure(id, ap, loc, d));
                 }
 
                 return Departures;
@@ -776,14 +776,14 @@ public class DataFactory {
                 List<Flight> Flights = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     LocalDate d = LocalDate.parse(rs.getString(2));
                     int price = rs.getInt(3);
                     Arrival a = FlightSearchController.findArrivalById(rs.getInt(4));
                     Departure b = FlightSearchController.findDepartureById(rs.getInt(5));
                     Airplane plane = FlightSearchController.findAirplaneById(rs.getInt(6));
 
-                    Flights.add(new Flight(Id, d, price, a, b, plane));
+                    Flights.add(new Flight(id, d, price, a, b, plane));
                 }
 
                 return Flights;
@@ -928,14 +928,14 @@ public class DataFactory {
                 List<FlightReservation> Freservations = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     User uId = UserSearchController.SearchById(rs.getInt(2));
                     int passengers = rs.getInt(3);
                     Flight F = FlightSearchController.findFlightById(rs.getInt(4));
                     Seat S = FlightSearchController.findSeatById(rs.getInt(5));
                     int bw = rs.getInt(6);
 
-                    Freservations.add(new FlightReservation(Id, uId, passengers, F, S, bw));
+                    Freservations.add(new FlightReservation(id, uId, passengers, F, S, bw));
                 }
 
                 return Freservations;

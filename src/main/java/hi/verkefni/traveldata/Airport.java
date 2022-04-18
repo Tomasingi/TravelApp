@@ -1,24 +1,24 @@
 package hi.verkefni.traveldata;
 
 public class Airport {
-    private int Id;
+    private int id;
     private String shortName;
     private String name;
     //private String location;
 
-    public Airport(int Id, String shortName, String name/* String location*/) {
-        this.Id = Id;
+    public Airport(int id, String shortName, String name/* String location*/) {
+        this.id = id;
         this.shortName = shortName;
         this.name = name;
         //this.location = location;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        id = id;
     }
 
     public String getName() {

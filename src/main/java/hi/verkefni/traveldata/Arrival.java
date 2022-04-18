@@ -3,24 +3,24 @@ package hi.verkefni.traveldata;
 import java.time.LocalDate;
 
 public class Arrival {
-    private int Id;
+    private int id;
     private Airport airport;
     private TravelLocation location;
     private LocalDate date;
 
     public Arrival(int id, Airport airport, TravelLocation location, LocalDate date) {
-        Id = id;
+        id = id;
         this.airport = airport;
         this.location = location;
         this.date = date;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        id = id;
     }
 
     public Airport getAirport() {
