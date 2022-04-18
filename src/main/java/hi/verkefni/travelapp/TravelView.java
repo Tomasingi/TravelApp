@@ -1,5 +1,7 @@
 package hi.verkefni.travelapp;
 
+import hi.verkefni.traveldata.DataFactory;
+import hi.verkefni.traveldata.DayTour;
 import hi.verkefni.traveldata.Reservation;
 import hi.verkefni.traveldata.TravelLocation;
 import javafx.fxml.FXML;
@@ -63,21 +65,19 @@ public class TravelView extends VBox {
             throw new RuntimeException(exception);
         }
 
-        reservations = new ArrayList<>();
+        reservations = DataFactory.selectAllDayTour();
         TravelLocation akureyri = new TravelLocation("Akureyri", TravelLocation.NORDURLAND_EYSTRA);
         TravelLocation egilsstadir = new TravelLocation("Egilsstaðir", TravelLocation.AUSTURLAND);
-        DayTour dayTour1 = new DayTour(1,"Diamondring", LocalDate.of(2022,6,10), "Busride","Busride around the Diamondring",18,15,15000,true, 1,"English", akureyri, akureyri);
-        DayTour dayTour2 = new DayTour(2,"Whale watching", LocalDate.of(2022,6,11), "Boatride","Boatride to look at whales",17,4,35000,true, 2,"English", akureyri, egilsstadir);
-        DayTour dayTour3 = new DayTour(3,"Duck watching", LocalDate.of(2022,6,12), "Busride and Walking","Busride to lake myvatn to look at ducks",14,17,8000,false, 4,"English", egilsstadir, akureyri);
-        DayTour dayTour4 = new DayTour(4,"Siglufjord sightseeing", LocalDate.of(2022,6,13), "Busride","Busride to the town of Siglufjord",20,2,45000,true, 1,"English", akureyri, akureyri);
-        DayTour dayTour5 = new DayTour(5,"Walk around Akureyri", LocalDate.of(2022,6,14), "Walking tour","Walk with a guide around Akureyri",15,7,2500,false, 3,"English", egilsstadir, egilsstadir);
-        DayTour dayTour6 = new DayTour(6,"Walk around Akureyri", LocalDate.of(2022,6,14), "Walking tour","Walk with a guide around Akureyri",15,7,2500,false, 3,"English", egilsstadir, egilsstadir);
+        DayTour dayTour1 = new DayTour(101,"Walk around reykjavik", LocalDate.of(2022,6,6),new TravelLocation("Höfuðborgarsvæðið",TravelLocation.HOFUDBORGARSVAEDID),"Walk Tour","Walk with an experianced tour guide around Reykjavík.",14,5,5990,0, 2,"English",1);
+        DayTour dayTour2 = new DayTour(102,"Trip to nauthólsvík", LocalDate.of(2022,7,6), new TravelLocation("Höfuðborgarsvæðið",TravelLocation.HOFUDBORGARSVAEDID),"Busride and beach","Take a bus to nauthólsvík beach and enjoy the sun",8,14,9990,1, 1,"English",2);
+        DayTour dayTour3 = new DayTour(103,"Þjóðminjasafnið", LocalDate.of(2022,8,6), new TravelLocation("Höfuðborgarsvæðið",TravelLocation.HOFUDBORGARSVAEDID),"Museum","Take a look at Icelands best valued antices with a guide",18,3,16990,0, 1,"English",3);
+        DayTour dayTour4 = new DayTour(104,"Blue Lagoon", LocalDate.of(2022,6,6),new TravelLocation("Suðurnes",TravelLocation.SUDURNES), "Swimming","Go to the world famous Blue Lagoon to get ripped of. You will be paying 1/5 of an iphone to go bathing in weird looking water.",16,25,39990,1, 1,"Danish",4);
+        DayTour dayTour5 = new DayTour(105,"Volcano museum", LocalDate.of(2022,7,6), new TravelLocation("Suðurnes",TravelLocation.SUDURNES),"Museum","Go to the Volcano museum to look at a once in a lifetime show",15,7,15990,1, 1,"English",5);
         reservations.add(dayTour1);
         reservations.add(dayTour2);
         reservations.add(dayTour3);
         reservations.add(dayTour4);
         reservations.add(dayTour5);
-        reservations.add(dayTour6);
     }
 
     public void initialize() {
