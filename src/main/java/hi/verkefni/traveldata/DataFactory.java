@@ -721,12 +721,12 @@ public class DataFactory {
                 List<Arrival> Arrivals = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     Airport airport = FlightSearchController.findAirportById(rs.getInt(2));
                     TravelLocation loc = LocationSearch.findLocationById(rs.getInt(3));
                     LocalDate d = LocalDate.parse(rs.getString(4));
 
-                    Arrivals.add(new Arrival(Id, airport, loc, d));
+                    Arrivals.add(new Arrival(id, airport, loc, d));
                 }
 
                 return Arrivals;

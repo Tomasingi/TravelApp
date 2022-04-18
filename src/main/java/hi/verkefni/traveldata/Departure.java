@@ -9,7 +9,7 @@ public class Departure {
     private LocalDate date;
 
     public Departure(int id, Airport airport, TravelLocation location, LocalDate date) {
-        id = id;
+        this.id = id;
         this.airport = airport;
         this.location = location;
         this.date = date;

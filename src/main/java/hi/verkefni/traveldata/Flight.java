@@ -3,7 +3,6 @@ package hi.verkefni.traveldata;
 import java.time.LocalDate;
 
 public class Flight extends Reservation {
-    private LocalDate date;
     private Arrival arrival;
     private Departure departure;
     private Airplane plane;
@@ -16,14 +15,9 @@ public class Flight extends Reservation {
         this.arrival = arrival;
         this.departure = departure;
         this.plane = plane;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+        this.beginningLocation = departure.getLocation();
+        this.endLocation = arrival.getLocation();
+        this.name = departure.getAirport().getName() + " -> " + arrival.getAirport().getName();
     }
 
     public Arrival getArrival() {

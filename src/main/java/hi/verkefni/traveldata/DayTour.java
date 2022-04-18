@@ -14,8 +14,7 @@ public class DayTour extends Reservation {
     public DayTour(Integer id, String name, LocalDate date, TravelLocation location, String type, String description, int rating, int availability, int price, int hotelPickUp, int difficulty, String language, int review_id) {
         this.id = id;
         this.name = name;
-        this.beginningDate = date;
-        this.endDate = date;
+        this.date = date;
         this.beginningLocation = location;
         this.endLocation = location;
         this.type = type;
@@ -30,12 +29,11 @@ public class DayTour extends Reservation {
     }
 
     public LocalDate getDate() {
-        return beginningDate;
+        return date;
     }
 
     public void setDate(LocalDate date) {
-        this.beginningDate = date;
-        this.endDate = date;
+        this.date = date;
     }
 
     public TravelLocation getLocation() {

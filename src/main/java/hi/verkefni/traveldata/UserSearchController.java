@@ -14,8 +14,15 @@ public class UserSearchController {
     }
 
     public static int nextId() {
-        // TODO: Skila næsta mögulega id
-        return -1;
+        List<User> users = selectAllUsers();
+
+        int max = -1;
+        for (User user : users) {
+            if (user.getId() > max) {
+                max = user.getId();
+            }
+        }
+        return max + 1;
     }
 
 }

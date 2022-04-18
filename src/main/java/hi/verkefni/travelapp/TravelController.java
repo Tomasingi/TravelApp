@@ -2,6 +2,7 @@ package hi.verkefni.travelapp;
 
 import hi.verkefni.traveldata.Reservation;
 import hi.verkefni.traveldata.User;
+import hi.verkefni.traveldata.UserController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;

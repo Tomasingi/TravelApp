@@ -3,12 +3,12 @@ package hi.verkefni.traveldata;
 public class TravelLocation {
     public static final int HOFUDBORGARSVAEDID = 1;
     public static final int SUDURNES = 2;
-    public static final int VESTURLAND = 3;
-    public static final int VESTFIRDIR = 4;
-    public static final int NORDURLAND_VESTRA = 5;
-    public static final int NORDURLAND_EYSTRA = 6;
-    public static final int AUSTURLAND = 7;
-    public static final int SUDURLAND = 8;
+    public static final int SUDURLAND = 3;
+    public static final int AUSTURLAND = 4;
+    public static final int NORDURLAND_EYSTRA = 5;
+    public static final int NORDURLAND_VESTRA = 6;
+    public static final int VESTFIRDIR = 7;
+    public static final int VESTURLAND = 8;
 
     private final String name;
     private final Integer location;

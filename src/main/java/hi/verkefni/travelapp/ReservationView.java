@@ -1,8 +1,6 @@
 package hi.verkefni.travelapp;
 
-import hi.verkefni.traveldata.DayTour;
-import hi.verkefni.traveldata.Reservation;
-import hi.verkefni.traveldata.TravelLocation;
+import hi.verkefni.traveldata.*;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -117,11 +115,7 @@ public class ReservationView extends VBox {
             this.getChildren().remove(fxLandshluti2);
         }
 
-        if (reservation.getBeginningDate().equals(reservation.getEndDate())) {
-            fxDates.setText(reservation.getBeginningDate().toString());
-        } else {
-            fxDates.setText(reservation.getBeginningDate().toString() + "\n" + reservation.getEndDate().toString());
-        }
+        fxDates.setText(reservation.getDate().toString());
     }
 
     public void updateSelected() {

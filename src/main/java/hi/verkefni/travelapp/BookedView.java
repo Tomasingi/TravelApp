@@ -1,6 +1,8 @@
 package hi.verkefni.travelapp;
 
 import hi.verkefni.traveldata.DayTour;
+import hi.verkefni.traveldata.Flight;
+import hi.verkefni.traveldata.Hotel;
 import hi.verkefni.traveldata.Reservation;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
@@ -63,7 +65,6 @@ public class BookedView extends HBox {
             fxIcon.setImage(new Image(getClass().getResourceAsStream("images/icons/hotel.png")));
         } else if (reservation instanceof DayTour) {
             fxIcon.setImage(new Image(getClass().getResourceAsStream("images/icons/daytour.png")));
-
         } else return;
 
         fxName.setText(reservation.getName());

@@ -6,15 +6,14 @@ import java.util.List;
 
 public abstract class Reservation {
     protected Integer id;
-    protected String name;
+    protected String name = "";
     protected Integer price;
-    protected String description;
+    protected String description = "";
     protected int rating;
     protected final List<Review> reviews = new ArrayList<>();
     protected TravelLocation beginningLocation;
     protected TravelLocation endLocation;
-    protected LocalDate beginningDate;
-    protected LocalDate endDate;
+    protected LocalDate date;
 
     public Integer getId() {
         return id;
@@ -67,11 +66,11 @@ public abstract class Reservation {
         return endLocation;
     }
 
-    public LocalDate getBeginningDate() {
-        return beginningDate;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

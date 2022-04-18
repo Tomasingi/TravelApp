@@ -1,5 +1,7 @@
 package hi.verkefni.traveldata;
 
+import java.time.LocalDate;
+
 public class Hotel extends Reservation {
     private TravelLocation location;
     private int roomCap;
@@ -13,6 +15,10 @@ public class Hotel extends Reservation {
         this.roomCap = roomCap;
         this.breakfast = breakfast;
         this.reviewId = reviewId;
+        this.beginningLocation = location;
+        this.endLocation = location;
+        this.date = LocalDate.of(2022, 06, 06);
+        this.price = 1000000;
     }
 
     public TravelLocation getLocation() {

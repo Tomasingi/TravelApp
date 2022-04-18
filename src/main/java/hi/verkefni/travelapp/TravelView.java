@@ -1,9 +1,6 @@
 package hi.verkefni.travelapp;
 
-import hi.verkefni.traveldata.DataFactory;
-import hi.verkefni.traveldata.DayTour;
-import hi.verkefni.traveldata.Reservation;
-import hi.verkefni.traveldata.TravelLocation;
+import hi.verkefni.traveldata.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -50,7 +47,7 @@ public class TravelView extends VBox {
     private List<Reservation> reservations;
     private final List<Reservation> slice = new ArrayList<>();
     private final List<Reservation> selected = new ArrayList<>();
-    private final Comparator<Reservation> compareByDate = Comparator.comparing(Reservation::getBeginningDate);
+    private final Comparator<Reservation> compareByDate = Comparator.comparing(Reservation::getDate);
     private final Comparator<Reservation> compareByPrice = Comparator.comparing(Reservation::getPrice);
     private final Comparator<Reservation> compareByName = Comparator.comparing(Reservation::getName);
     private TravelController travelController;
@@ -65,19 +62,10 @@ public class TravelView extends VBox {
             throw new RuntimeException(exception);
         }
 
-        reservations = DataFactory.selectAllDayTour();
-        TravelLocation akureyri = new TravelLocation("Akureyri", TravelLocation.NORDURLAND_EYSTRA);
-        TravelLocation egilsstadir = new TravelLocation("Egilsstaðir", TravelLocation.AUSTURLAND);
-        DayTour dayTour1 = new DayTour(101,"Walk around reykjavik", LocalDate.of(2022,6,6),new TravelLocation("Höfuðborgarsvæðið",TravelLocation.HOFUDBORGARSVAEDID),"Walk Tour","Walk with an experianced tour guide around Reykjavík.",14,5,5990,0, 2,"English",1);
-        DayTour dayTour2 = new DayTour(102,"Trip to nauthólsvík", LocalDate.of(2022,7,6), new TravelLocation("Höfuðborgarsvæðið",TravelLocation.HOFUDBORGARSVAEDID),"Busride and beach","Take a bus to nauthólsvík beach and enjoy the sun",8,14,9990,1, 1,"English",2);
-        DayTour dayTour3 = new DayTour(103,"Þjóðminjasafnið", LocalDate.of(2022,8,6), new TravelLocation("Höfuðborgarsvæðið",TravelLocation.HOFUDBORGARSVAEDID),"Museum","Take a look at Icelands best valued antices with a guide",18,3,16990,0, 1,"English",3);
-        DayTour dayTour4 = new DayTour(104,"Blue Lagoon", LocalDate.of(2022,6,6),new TravelLocation("Suðurnes",TravelLocation.SUDURNES), "Swimming","Go to the world famous Blue Lagoon to get ripped of. You will be paying 1/5 of an iphone to go bathing in weird looking water.",16,25,39990,1, 1,"Danish",4);
-        DayTour dayTour5 = new DayTour(105,"Volcano museum", LocalDate.of(2022,7,6), new TravelLocation("Suðurnes",TravelLocation.SUDURNES),"Museum","Go to the Volcano museum to look at a once in a lifetime show",15,7,15990,1, 1,"English",5);
-        reservations.add(dayTour1);
-        reservations.add(dayTour2);
-        reservations.add(dayTour3);
-        reservations.add(dayTour4);
-        reservations.add(dayTour5);
+        reservations = new ArrayList<>();
+        reservations.addAll(DataFactory.selectAllDayTour());
+        reservations.addAll(DataFactory.selectAllFlight());
+        reservations.addAll(DataFactory.selectAllHotels());
     }
 
     public void initialize() {
@@ -128,10 +116,9 @@ public class TravelView extends VBox {
                     || (!flights && !hotels && !daytours);
             LocalDate lb = fxBeginningDate.getValue();
             LocalDate ub = fxEndDate.getValue();
-            LocalDate beginning = r.getBeginningDate();
-            LocalDate end = r.getEndDate();
-            boolean notEarly = (lb == null) || (beginning.isAfter(lb));
-            boolean notLate = (ub == null) || (end.isBefore(ub));
+            LocalDate date = r.getDate();
+            boolean notEarly = (lb == null) || (date.isAfter(lb));
+            boolean notLate = (ub == null) || (date.isBefore(ub));
             boolean rightDate = notEarly && notLate;
             if (rightType && rightDate) {
                 slice.add(r);
@@ -207,6 +194,9 @@ public class TravelView extends VBox {
             reservationView.setIndex(counter);
             fxMainView.getChildren().add(reservationView);
             counter++;
+            if (counter >= 35) {
+                break;
+            }
         }
     }
 
