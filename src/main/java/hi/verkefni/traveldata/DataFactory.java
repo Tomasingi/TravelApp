@@ -414,7 +414,7 @@ public class DataFactory {
                     int DaytourId = rs.getInt(4);
 
                     DayTour x = TourSearchController.SearchById(DaytourId);
-                    User n = UserSearchController.SearchById(UserId);
+                    User n = UserSearchController.searchById(UserId);
 
                     Daytoursreservation.add(new DTReservation(n, x, AmountOfP, reservationId));
                 }
@@ -456,7 +456,8 @@ public class DataFactory {
                     String name = rs.getString(2);
                     String email = rs.getString(3);
 
-                    Users.add(new User(id, name, email));
+                    //TODO: Útfæra password
+                    Users.add(new User(id, name, email, "password123"));
                 }
 
                 return Users;
@@ -892,7 +893,7 @@ public class DataFactory {
                 List<HotelReservation> hr = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    hr.add(new HotelReservation(rs.getInt(1), UserSearchController.SearchById(rs.getInt(2)), HotelSearchController.findRoomById(rs.getInt(3)),HotelSearchController.findHotelById(rs.getInt(4)),LocalDate.parse(rs.getString(5))));
+                    hr.add(new HotelReservation(rs.getInt(1), UserSearchController.searchById(rs.getInt(2)), HotelSearchController.findRoomById(rs.getInt(3)),HotelSearchController.findHotelById(rs.getInt(4)),LocalDate.parse(rs.getString(5))));
                 }
 
                 return hr;
@@ -929,7 +930,7 @@ public class DataFactory {
                 // loop through the result set
                 while (rs.next()) {
                     int id = rs.getInt(1);
-                    User uId = UserSearchController.SearchById(rs.getInt(2));
+                    User uId = UserSearchController.searchById(rs.getInt(2));
                     int passengers = rs.getInt(3);
                     Flight F = FlightSearchController.findFlightById(rs.getInt(4));
                     Seat S = FlightSearchController.findSeatById(rs.getInt(5));

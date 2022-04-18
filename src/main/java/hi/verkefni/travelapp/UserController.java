@@ -1,5 +1,7 @@
 package hi.verkefni.travelapp;
 
+import hi.verkefni.traveldata.User;
+
 public class UserController {
     private final UserDatabase userDatabase = new UserDatabase();
 

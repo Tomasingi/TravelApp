@@ -1,5 +1,7 @@
 package hi.verkefni.travelapp;
 
+import hi.verkefni.traveldata.User;
+import hi.verkefni.traveldata.UserSearchController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -104,6 +106,7 @@ public class SignupView extends VBox {
 
         if (!failed) {
             User newUser = new User(
+                    UserSearchController.nextId(),
                     fxName.getText(),
                     fxEmail.getText(),
                     fxPassword.getText()

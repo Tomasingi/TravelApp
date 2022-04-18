@@ -1,23 +1,28 @@
 package hi.verkefni.traveldata;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class User {
-    private int Id;
+    private int id;
     private String name;
     private String email;
+    private String password;
+    private final Set<ReservationCount> reservations = new HashSet<>();
 
-
-    public User(int Id, String name, String email) {
-        this.Id = Id;
+    public User(int id, String name, String email, String password) {
+        this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
-    public void setId(int Id) {
-        this.Id = Id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -36,4 +41,11 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

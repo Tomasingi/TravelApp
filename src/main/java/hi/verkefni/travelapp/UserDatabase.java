@@ -1,5 +1,7 @@
 package hi.verkefni.travelapp;
 
+import hi.verkefni.traveldata.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
