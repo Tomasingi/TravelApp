@@ -5,10 +5,10 @@ public class Seat {
     private int price;
     private int occupied;
 
-    public Seat(int id, int price) {
+    public Seat(int id, int price, int occupied) {
         this.id = id;
         this.price = price;
-        this.occupied = 0;
+        this.occupied = occupied;
     }
 
     public int getId() {

@@ -12,19 +12,13 @@ import java.util.List;
 
 
 public class DataFactory {
-    private static final String URL =
-            "jdbc:sqlite:C:\\Users\\almar\\Documents\\Haskoli\\Vor_2022\\TrounHugbunadar\\THB_DB.db"; //breyta
+    private static final String URL = "jdbc:sqlite:C:\\Users\\almar\\Documents\\Haskoli\\Vor_2022\\TrounHugbunadar\\THB_DB.db";
 
-    public static void insertFlight(FlightReservation flightReservation) {
-
-    }
-
-    //INSERT KLASSAR
-    public void insertDayTour(DayTour dayTour) {
+    //INSERT KLASAR
+    public static void insertDayTour(DayTour dayTour) {
         String sql = "INSERT INTO DayTour(id, name, type, description, rating, availability, price, hotelPickUp, difficulty, language, review_id, location_id, date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Connection conn = null;
         try {
-            // create a connection to the database
             conn = DriverManager.getConnection(URL);
 
             try {
@@ -62,7 +56,7 @@ public class DataFactory {
         }
     }
 
-    /*public void insertDTReservation(DTReservation reservation) {
+    public static void insertDTReservation(DTReservation reservation) {
         String sql = "INSERT INTO DayTourReservation(id, user_id, guest, daytour_id) VALUES(?,?,?,?)";
         Connection conn = null;
         try {
@@ -72,7 +66,7 @@ public class DataFactory {
             try {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, reservation.getReservationId());
-                pstmt.setInt(2, reservation.getUser().getID());
+                pstmt.setInt(2, reservation.getUser().getId());
                 pstmt.setInt(3, reservation.getAmountOfPeople());
                 pstmt.setInt(4, reservation.getDayTour().getId());
 
@@ -93,7 +87,7 @@ public class DataFactory {
                 System.out.println(ex.getMessage());
             }
         }
-    }*/
+    }
 
     public void insertUser(User user) {
         String sql = "INSERT INTO User(Id, name, email) VALUES(?,?,?)";
@@ -253,7 +247,7 @@ public class DataFactory {
         }
     }
 
-    public static void insertFlight(Flight flight) {
+    public void insertFlight(Flight flight) {
         String sql = "INSERT INTO Flight(id, date, price, arrival_id, departure_id, plane_id) VALUES(?,?,?,?,?,?)";
         Connection conn = null;
         try {
@@ -288,7 +282,7 @@ public class DataFactory {
         }
     }
 
-    public static void insertFlightReservation(FlightReservation freservation) {
+    public void insertFlightReservation(FlightReservation freservation) {
         String sql = "INSERT INTO FlightReservations(id, user_id, passangers, flight_id, seat_id, bothWays) VALUES(?,?,?,?,?,?)";
         Connection conn = null;
         try {
@@ -356,6 +350,38 @@ public class DataFactory {
         }
     }
 
+    public static void insertReview(Review review) {
+        String sql = "INSERT INTO Reviews(id, rating, Review1, Review2) VALUES(?,?,?,?)";
+        Connection conn = null;
+        try {
+            // create a connection to the database
+            conn = DriverManager.getConnection(URL);
+
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, review.getId());
+                pstmt.setInt(2, review.getRating());
+                pstmt.setString(3, review.getReview1());
+                pstmt.setString(4, review.getReview2());
+
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
 
     //SELECT KLASSAR
     public static List<DayTour> selectAllDayTour() {
@@ -394,7 +420,7 @@ public class DataFactory {
         return null;
     }
 
-    public List<DTReservation> selectAllDayTourReservations() {
+    public static List<DTReservation> selectAllDayTourReservations() {
         String sql = "SELECT * FROM DayTourReservations";
         Connection conn = null;
         try {
@@ -413,7 +439,7 @@ public class DataFactory {
                     int AmountOfP = rs.getInt(3);
                     int DaytourId = rs.getInt(4);
 
-                    DayTour x = TourSearchController.SearchById(DaytourId);
+                    DayTour x = TourSearchController.searchById(DaytourId);
                     User n = UserSearchController.searchById(UserId);
 
                     Daytoursreservation.add(new DTReservation(n, x, AmountOfP, reservationId));
@@ -456,7 +482,7 @@ public class DataFactory {
                     String name = rs.getString(2);
                     String email = rs.getString(3);
 
-                    //TODO: Útfæra password
+                    // TODO: Útfæra password
                     Users.add(new User(id, name, email, "password123"));
                 }
 
@@ -493,10 +519,10 @@ public class DataFactory {
                 List<TravelLocation> Loc = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int id = rs.getInt(1);
+                    int Id = rs.getInt(1);
                     String name = rs.getString(2);
 
-                    Loc.add(new TravelLocation(name, id));
+                    Loc.add(new TravelLocation(name, Id));
                 }
 
                 return Loc;
@@ -532,11 +558,11 @@ public class DataFactory {
                 List<Reservations> Reserv = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int id = rs.getInt(1);
+                    int Id = rs.getInt(1);
                     int UserId = rs.getInt(2);
                     int ReservId = rs.getInt(3);
 
-                    Reserv.add(new Reservations(id, UserId, ReservId));
+                    Reserv.add(new Reservations(Id, UserId, ReservId));
                 }
 
                 return Reserv;
@@ -572,12 +598,12 @@ public class DataFactory {
                 List<Airport> Airports = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int id = rs.getInt(1);
+                    int Id = rs.getInt(1);
                     String shortname = rs.getString(2);
                     String name = rs.getString(3);
                     //int location = rs.getInt(4);
 
-                    Airports.add(new Airport(id, shortname, name));
+                    Airports.add(new Airport(Id, shortname, name));
                 }
 
                 return Airports;
@@ -618,7 +644,7 @@ public class DataFactory {
                     int occupied = rs.getInt(3);
 
 
-                    Seats.add(new Seat(id, price));
+                    Seats.add(new Seat(id, price, occupied));
                 }
 
                 return Seats;
@@ -654,12 +680,12 @@ public class DataFactory {
                 List<Airplane> Airplanes = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int id = rs.getInt(1);
+                    int Id = rs.getInt(1);
                     int seatId = rs.getInt(2);
 
                     Seat x = FlightSearchController.findSeatById(seatId);
 
-                    Airplanes.add(new Airplane(id, x));
+                    Airplanes.add(new Airplane(Id, x));
                 }
 
                 return Airplanes;
@@ -695,12 +721,12 @@ public class DataFactory {
                 List<Arrival> Arrivals = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int id = rs.getInt(1);
+                    int Id = rs.getInt(1);
                     Airport airport = FlightSearchController.findAirportById(rs.getInt(2));
                     TravelLocation loc = LocationSearch.findLocationById(rs.getInt(3));
                     LocalDate d = LocalDate.parse(rs.getString(4));
 
-                    Arrivals.add(new Arrival(id, airport, loc, d));
+                    Arrivals.add(new Arrival(Id, airport, loc, d));
                 }
 
                 return Arrivals;
@@ -736,12 +762,12 @@ public class DataFactory {
                 List<Departure> Departures = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int id = rs.getInt(1);
+                    int Id = rs.getInt(1);
                     Airport ap = FlightSearchController.findAirportById(rs.getInt(2));
                     TravelLocation loc = LocationSearch.findLocationById(rs.getInt(3));
                     LocalDate d = LocalDate.parse(rs.getString(4));
 
-                    Departures.add(new Departure(id, ap, loc, d));
+                    Departures.add(new Departure(Id, ap, loc, d));
                 }
 
                 return Departures;
@@ -777,14 +803,14 @@ public class DataFactory {
                 List<Flight> Flights = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int id = rs.getInt(1);
+                    int Id = rs.getInt(1);
                     LocalDate d = LocalDate.parse(rs.getString(2));
                     int price = rs.getInt(3);
                     Arrival a = FlightSearchController.findArrivalById(rs.getInt(4));
                     Departure b = FlightSearchController.findDepartureById(rs.getInt(5));
                     Airplane plane = FlightSearchController.findAirplaneById(rs.getInt(6));
 
-                    Flights.add(new Flight(id, d, price, a, b, plane));
+                    Flights.add(new Flight(Id, d, price, a, b, plane));
                 }
 
                 return Flights;
@@ -929,17 +955,53 @@ public class DataFactory {
                 List<FlightReservation> Freservations = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    int id = rs.getInt(1);
+                    int Id = rs.getInt(1);
                     User uId = UserSearchController.searchById(rs.getInt(2));
                     int passengers = rs.getInt(3);
                     Flight F = FlightSearchController.findFlightById(rs.getInt(4));
                     Seat S = FlightSearchController.findSeatById(rs.getInt(5));
                     int bw = rs.getInt(6);
 
-                    Freservations.add(new FlightReservation(id, uId, passengers, F, S, bw));
+                    Freservations.add(new FlightReservation(Id, uId, passengers, F, S, bw));
                 }
 
                 return Freservations;
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return null;
+    }
+
+    public static List<Review> selectAllReview() {
+        String sql = "SELECT * FROM Reviews;";
+        Connection conn = null;
+        try {
+            // create a connection to the database
+            conn = DriverManager.getConnection(URL);
+
+            try {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+
+                List<Review> Reviews = new ArrayList<>();
+                // loop through the result set
+                while (rs.next()) {
+                    Reviews.add(new Review(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4)));
+                }
+
+                return Reviews;
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -984,7 +1046,6 @@ public class DataFactory {
         }
     }
 }
-
 
 
 
