@@ -1,9 +1,6 @@
 package hi.verkefni.travelapp;
 
-import hi.verkefni.traveldata.DayTour;
-import hi.verkefni.traveldata.Flight;
-import hi.verkefni.traveldata.Hotel;
-import hi.verkefni.traveldata.Reservation;
+import hi.verkefni.traveldata.*;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,20 +19,26 @@ public class BookedView extends HBox {
     @FXML
     private Label fxName;
     @FXML
+    private HBox fxRight;
+    @FXML
     private Spinner<Integer> fxSpinner;
     @FXML
     private ImageView fxRemove;
 
-    private Reservation reservation;
+    private final Reservation reservation;
     private int index;
-    private TravelView travelView;
+
+    private final TravelView travelView;
 
     private final SimpleIntegerProperty priceProperty = new SimpleIntegerProperty();
     public SimpleIntegerProperty priceProperty() {
         return priceProperty;
     }
 
-    public BookedView(Reservation reservation) {
+    public BookedView(Reservation reservation, TravelView travelView) {
+        this.reservation = reservation;
+        this.travelView = travelView;
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("booked-view.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -44,41 +47,40 @@ public class BookedView extends HBox {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-
-        this.reservation = reservation;
-        setReservation();
     }
 
     public void initialize() {
-        fxSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000));
-        fxSpinner.getValueFactory().setValue(1);
-        fxSpinner.valueProperty().addListener((obs, oldValue, newValue) ->
-                travelView.updateAmount((newValue - oldValue) * reservation.getPrice()));
-
-        fxRemove.setImage(new Image(getClass().getResourceAsStream("images/icons/remove.png")));
-    }
-
-    private void setReservation() {
-        if (reservation instanceof Flight) {
+        if (reservation instanceof Seat) {
             fxIcon.setImage(new Image(getClass().getResourceAsStream("images/icons/flight.png")));
-        } else if (reservation instanceof Hotel) {
+        } else if (reservation instanceof RoomAvailability) {
             fxIcon.setImage(new Image(getClass().getResourceAsStream("images/icons/hotel.png")));
         } else if (reservation instanceof DayTour) {
             fxIcon.setImage(new Image(getClass().getResourceAsStream("images/icons/daytour.png")));
         } else return;
 
         fxName.setText(reservation.getName());
+
+        if (reservation instanceof DayTour) {
+            fxSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000));
+            fxSpinner.getValueFactory().setValue(1);
+            fxSpinner.valueProperty().addListener((obs, oldValue, newValue) ->
+                    travelView.updateAmount((newValue - oldValue) * reservation.getPrice()));
+        } else {
+            fxRight.getChildren().remove(fxSpinner);
+            fxSpinner = null;
+        }
+
+        fxRemove.setImage(new Image(getClass().getResourceAsStream("images/icons/remove.png")));
     }
 
     @FXML
     private void removeHandler() {
+        if (fxSpinner != null) {
+            travelView.updateAmount(-(reservation.getPrice() * fxSpinner.getValue()));
+        } else {
+            travelView.updateAmount(-reservation.getPrice());
+        }
         travelView.remove(reservation);
-    }
-
-    @FXML
-    private void amountHandler() {
-        System.out.println("!");
-        travelView.updateAmount();
     }
 
     public int getAmount() {
@@ -95,9 +97,5 @@ public class BookedView extends HBox {
 
     public int getIndex() {
         return index;
-    }
-
-    public void link(TravelView travelView) {
-        this.travelView = travelView;
     }
 }

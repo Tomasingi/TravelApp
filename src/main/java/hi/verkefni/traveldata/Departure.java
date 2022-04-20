@@ -2,8 +2,8 @@ package hi.verkefni.traveldata;
 
 import java.time.LocalDate;
 
-public class Departure {
-    private int id;
+public class Departure implements Comparable<Departure> {
+    private final int id;
     private Airport airport;
     private TravelLocation location;
     private LocalDate date;
@@ -15,12 +15,12 @@ public class Departure {
         this.date = date;
     }
 
-    public int getId() {
-        return id;
+    public int compareTo(Departure other) {
+        return Integer.compare(id, other.getId());
     }
 
-    public void setId(int id) {
-        id = id;
+    public int getId() {
+        return id;
     }
 
     public Airport getAirport() {

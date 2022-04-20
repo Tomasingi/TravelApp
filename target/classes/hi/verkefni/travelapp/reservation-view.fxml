@@ -16,27 +16,23 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label fx:id="fxPrice" textFill="#00bb00">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
+                  <ImageView fx:id="fxExpand" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#expandHandler" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER_LEFT">
-         <children>
-            <Label fx:id="fxDescription" wrapText="true" />
-         </children>
-      </HBox>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-            <ImageView fx:id="fxLandshluti" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="fxLandshluti" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="fxArrow" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="fxLandshluti2" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="fxLandshluti2" pickOnBounds="true" preserveRatio="true" />
             <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                <children>
                   <Label fx:id="fxDates" />

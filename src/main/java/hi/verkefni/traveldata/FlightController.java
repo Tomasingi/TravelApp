@@ -1,18 +1,15 @@
 package hi.verkefni.traveldata;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FlightController {
-    private ArrayList<Flight> flights = (ArrayList<Flight>) DataFactory.selectAllFlight();
-
     public int findNextIdFlight() {
-        List<Flight> flight = DataFactory.selectAllFlight();
-        int id = flight.get(0).getId();
-        for (int n = 0; n < flight.size(); n++) {
-            if (flight.get(n).getId() > id) {
-                id = flight.get(n).getId();
+        List<Flight> flights = DataFactory.selectAllFlight();
+        int id = -1;
+        for (Flight value : flights) {
+            if (value.getId() > id) {
+                id = value.getId();
             }
         }
         return id+1;

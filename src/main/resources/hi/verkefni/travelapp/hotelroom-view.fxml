@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root alignment="CENTER_LEFT" style="-fx-border-color: #777;" type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="fxDate" />
+      <HBox alignment="CENTER_RIGHT">
+         <children>
+            <Label fx:id="fxPrice" />
+         </children>
+      </HBox>
+   </children>
+</fx:root>

@@ -4,13 +4,16 @@ import java.util.List;
 
 public class FlightSearchController {
 
-    public static Seat findSeatById(int id){
+    // Gagnslaust
+    public static Seat findSeatById(int id) {
         List<Seat> Seats = DataFactory.selectAllSeat();
 
         Seats.removeIf(i -> i.getId() != id);
+        // WTF!?
         return Seats.get(0);
     }
 
+    // Gagnslaust
     public static Arrival findArrivalById(int id){
         List<Arrival> Arrivals = DataFactory.selectAllArrival();
 
@@ -18,6 +21,7 @@ public class FlightSearchController {
         return Arrivals.get(0);
     }
 
+    // Gagnslaust
     public static Departure findDepartureById(int id){
         List<Departure> Departures = DataFactory.selectAllDeparture();
 
@@ -25,6 +29,7 @@ public class FlightSearchController {
         return Departures.get(0);
     }
 
+    // Gagnslaust
     public static Airplane findAirplaneById(int id){
         List<Airplane> Airplanes = DataFactory.selectAllAirplane();
 
@@ -32,6 +37,12 @@ public class FlightSearchController {
         return Airplanes.get(0);
     }
 
+    public static List<Flight> findAllFlights() {
+        List<Flight> flights = DataFactory.selectAllFlight();
+        return flights;
+    }
+
+    // Mögulega Gagnslaust
     public static Flight findFlightById(int id){
         List<Flight> Flights = DataFactory.selectAllFlight();
 
@@ -39,6 +50,7 @@ public class FlightSearchController {
         return Flights.get(0);
     }
 
+    // Gagnslaust
     public static Airport findAirportById(int id){
         List<Airport> ap = DataFactory.selectAllAirport();
 
@@ -46,6 +58,7 @@ public class FlightSearchController {
         return ap.get(0);
     }
 
+    // Gagnslaust
     public static List<Flight> findFlightByArrival(String location) {
         List<Flight> flights = DataFactory.selectAllFlight();
 
@@ -53,6 +66,7 @@ public class FlightSearchController {
         return flights;
     }
 
+    // Gagnslaust
     public static List<Flight> findFlightByDeparture(String location) {
         List<Flight> flights = DataFactory.selectAllFlight();
 

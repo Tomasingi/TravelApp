@@ -7,9 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 
 public class DataFactory {
     private static final String URL = "jdbc:sqlite:/home/tomas/Desktop/THB_DB.db";
@@ -161,7 +159,7 @@ public class DataFactory {
             try {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, ap.getId());
-                pstmt.setInt(2, ap.getSeat().getId());
+                pstmt.setInt(2, ap.getSeats().get(0).getId());
 
                 pstmt.executeUpdate();
             } catch (SQLException e) {
@@ -398,7 +396,7 @@ public class DataFactory {
                 List<Reservation> Daytours = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    Daytours.add(new DayTour(rs.getInt(1), rs.getString(2), LocalDate.parse(rs.getString(13)), LocationSearch.findLocationById(rs.getInt(12)), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getString(10), rs.getInt(11)));
+                    Daytours.add(new DayTour(rs.getInt(1), rs.getString(2), LocalDate.parse(rs.getString(13)), new TravelLocation("", rs.getInt(12)), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getString(10), rs.getInt(11)));
                 }
 
                 return Daytours;
@@ -636,18 +634,17 @@ public class DataFactory {
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
 
-                List<Seat> Seats = new ArrayList<>();
+                List<Seat> seats = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
                     int id = rs.getInt(1);
                     int price = rs.getInt(2);
                     int occupied = rs.getInt(3);
 
-
-                    Seats.add(new Seat(id, price, occupied));
+                    seats.add(new Seat(id, price, occupied));
                 }
 
-                return Seats;
+                return seats;
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -677,18 +674,35 @@ public class DataFactory {
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
 
-                List<Airplane> Airplanes = new ArrayList<>();
+                List<Airplane> airplanes = new ArrayList<>();
+                Map<Integer, Airplane> airplaneMap = new HashMap<>();
+                List<Seat> seats = selectAllSeat();
+                Collections.sort(seats);
+                Integer[] seatIdArray = new Integer[seats.size()];
+                for (int i = 0; i < seats.size(); i++) {
+                    seatIdArray[i] = seats.get(i).getId();
+                }
+                List<Integer> seatIds = Arrays.asList(seatIdArray);
                 // loop through the result set
+                int counter = 0;
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
+                    int id = rs.getInt(1);
                     int seatId = rs.getInt(2);
 
-                    Seat x = FlightSearchController.findSeatById(seatId);
-
-                    Airplanes.add(new Airplane(Id, x));
+                    Seat seat = seats.get(Collections.binarySearch(seatIds, seatId));
+                    if (airplaneMap.containsKey(id)) {
+                        airplaneMap.get(id).getSeats().add(seat);
+                    } else {
+                        List<Seat> seatList = new ArrayList<>();
+                        seatList.add(seat);
+                        Airplane airplane = new Airplane(id, seatList);
+                        airplaneMap.put(id, airplane);
+                    }
                 }
-
-                return Airplanes;
+                for (Airplane airplane : airplaneMap.values()) {
+                    airplanes.add(airplane);
+                }
+                return airplanes;
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -719,11 +733,19 @@ public class DataFactory {
                 ResultSet rs = stmt.executeQuery(sql);
 
                 List<Arrival> Arrivals = new ArrayList<>();
+                List<Airport> airports = selectAllAirport();
+                Collections.sort(airports);
+                Integer[] airportIdArray = new Integer[airports.size()];
+                for (int i = 0; i < airports.size(); i++) {
+                    airportIdArray[i] = airports.get(i).getId();
+                }
+                List<Integer> airportIds = Arrays.asList(airportIdArray);
                 // loop through the result set
                 while (rs.next()) {
                     int id = rs.getInt(1);
-                    Airport airport = FlightSearchController.findAirportById(rs.getInt(2));
-                    TravelLocation loc = LocationSearch.findLocationById(rs.getInt(3));
+                    int airportId = Collections.binarySearch(airportIds, rs.getInt(2));
+                    Airport airport = airports.get(airportId);
+                    TravelLocation loc = new TravelLocation("", rs.getInt(3));
                     LocalDate d = LocalDate.parse(rs.getString(4));
 
                     Arrivals.add(new Arrival(id, airport, loc, d));
@@ -760,14 +782,22 @@ public class DataFactory {
                 ResultSet rs = stmt.executeQuery(sql);
 
                 List<Departure> Departures = new ArrayList<>();
+                List<Airport> airports = selectAllAirport();
+                Collections.sort(airports);
+                Integer[] airportIdArray = new Integer[airports.size()];
+                for (int i = 0; i < airports.size(); i++) {
+                    airportIdArray[i] = airports.get(i).getId();
+                }
+                List<Integer> airportIds = Arrays.asList(airportIdArray);
                 // loop through the result set
                 while (rs.next()) {
-                    int Id = rs.getInt(1);
-                    Airport ap = FlightSearchController.findAirportById(rs.getInt(2));
-                    TravelLocation loc = LocationSearch.findLocationById(rs.getInt(3));
+                    int id = rs.getInt(1);
+                    int airportId = Collections.binarySearch(airportIds, rs.getInt(2));
+                    Airport airport = airports.get(airportId);
+                    TravelLocation loc = new TravelLocation("", rs.getInt(3));
                     LocalDate d = LocalDate.parse(rs.getString(4));
 
-                    Departures.add(new Departure(Id, ap, loc, d));
+                    Departures.add(new Departure(id, airport, loc, d));
                 }
 
                 return Departures;
@@ -801,16 +831,40 @@ public class DataFactory {
                 ResultSet rs = stmt.executeQuery(sql);
 
                 List<Flight> Flights = new ArrayList<>();
+                List<Arrival> arrivals = selectAllArrival();
+                List<Departure> departures = selectAllDeparture();
+                List<Airplane> airplanes = selectAllAirplane();
+                Collections.sort(arrivals);
+                Integer[] arrivalIdArray = new Integer[arrivals.size()];
+                for (int i = 0; i < arrivals.size(); i++) {
+                    arrivalIdArray[i] = arrivals.get(i).getId();
+                }
+                Collections.sort(departures);
+                Integer[] departureIdArray = new Integer[departures.size()];
+                for (int i = 0; i < departures.size(); i++) {
+                    departureIdArray[i] = departures.get(i).getId();
+                }
+                Collections.sort(airplanes);
+                Integer[] airplaneIdArray = new Integer[airplanes.size()];
+                for (int i = 0; i < airplanes.size(); i++) {
+                    airplaneIdArray[i] = airplanes.get(i).getId();
+                }
+                List<Integer> arrivalIds = Arrays.asList(arrivalIdArray);
+                List<Integer> departureIds = Arrays.asList(departureIdArray);
+                List<Integer> airplaneIds = Arrays.asList(airplaneIdArray);
                 // loop through the result set
                 while (rs.next()) {
                     int Id = rs.getInt(1);
                     LocalDate d = LocalDate.parse(rs.getString(2));
                     int price = rs.getInt(3);
-                    Arrival a = FlightSearchController.findArrivalById(rs.getInt(4));
-                    Departure b = FlightSearchController.findDepartureById(rs.getInt(5));
-                    Airplane plane = FlightSearchController.findAirplaneById(rs.getInt(6));
+                    int arrivalId = Collections.binarySearch(arrivalIds, rs.getInt(4));
+                    int departureId = Collections.binarySearch(departureIds, rs.getInt(5));
+                    int airplaneId = Collections.binarySearch(airplaneIds, rs.getInt(6));
+                    Arrival arrival = arrivals.get(arrivalId);
+                    Departure departure = departures.get(departureId);
+                    Airplane airplane = airplanes.get(airplaneId);
 
-                    Flights.add(new Flight(Id, d, price, a, b, plane));
+                    Flights.add(new Flight(Id, d, price, arrival, departure, airplane));
                 }
 
                 return Flights;
@@ -846,7 +900,10 @@ public class DataFactory {
                 List<Hotel> Hotels = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-                    Hotels.add(new Hotel(rs.getInt(1), rs.getString(2),LocationSearch.findLocationById(rs.getInt(3)), rs.getInt(4), rs.getInt(5),rs.getInt(6)));
+                    int id = rs.getInt(1);
+                    List<Room> rooms = selectAllRooms();
+                    rooms.removeIf(i -> i.getHotelId() != id);
+                    Hotels.add(new Hotel(id, rs.getString(2), new TravelLocation("", rs.getInt(3)), rs.getInt(4), rs.getInt(5), rs.getInt(6), rooms));
                 }
 
                 return Hotels;
@@ -882,8 +939,15 @@ public class DataFactory {
                 List<Room> Rooms = new ArrayList<>();
                 // loop through the result set
                 while (rs.next()) {
-
-                    Rooms.add(new Room(rs.getInt(1), Size.valueOf(rs.getString(2)),rs.getInt(3),rs.getInt(4),rs.getInt(5)));
+                    List<RoomAvailability> availabilities = selectAllRoomAvailability();
+                    int id = rs.getInt(1);
+                    availabilities.removeIf(i -> i.getId() != id);
+                    Room room = new Room(id, rs.getString(2),rs.getInt(3),rs.getInt(4),rs.getInt(5), availabilities);
+                    Rooms.add(room);
+                    for (RoomAvailability availability : availabilities) {
+                        availability.setRoom(room);
+                        availability.setPrice(room.getPrice());
+                    }
                 }
 
                 return Rooms;
@@ -958,11 +1022,11 @@ public class DataFactory {
                     int Id = rs.getInt(1);
                     User uId = UserSearchController.searchById(rs.getInt(2));
                     int passengers = rs.getInt(3);
-                    Flight F = FlightSearchController.findFlightById(rs.getInt(4));
-                    Seat S = FlightSearchController.findSeatById(rs.getInt(5));
+                    //Flight F = FlightSearchController.findFlightById(rs.getInt(4));
+                    //Seat S = FlightSearchController.findSeatById(rs.getInt(5));
                     int bw = rs.getInt(6);
 
-                    Freservations.add(new FlightReservation(Id, uId, passengers, F, S, bw));
+                    //Freservations.add(new FlightReservation(Id, uId, passengers, F, S, bw));
                 }
 
                 return Freservations;
@@ -1002,6 +1066,42 @@ public class DataFactory {
                 }
 
                 return Reviews;
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return null;
+    }
+    
+    public static List<RoomAvailability> selectAllRoomAvailability() {
+        String sql = "SELECT * FROM RoomAvailability;";
+        Connection conn = null;
+        try {
+            // create a connection to the database
+            conn = DriverManager.getConnection(URL);
+
+            try {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+
+                List<RoomAvailability> availabilities = new ArrayList<>();
+                // loop through the result set
+                while (rs.next()) {
+                    availabilities.add(new RoomAvailability(rs.getInt(1), LocalDate.parse(rs.getString(2)), rs.getInt(3)));
+                }
+
+                return availabilities;
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }

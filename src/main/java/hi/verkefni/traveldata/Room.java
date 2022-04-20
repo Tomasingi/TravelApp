@@ -1,42 +1,34 @@
 package hi.verkefni.traveldata;
 
-enum Size{
-    Standard("Standard"),
-    Deluxe("Deluxe"),
-    Suite("Suite");
-
-    private final String RoomType;
-
-    Size(String RoomType){
-        this.RoomType = RoomType;
-    }
-
-    public String getSize(){
-        return RoomType;
-    }
-}
+import java.util.ArrayList;
+import java.util.List;
 
 public class Room {
+    public static final String STANDARD = "Standard";
+    public static final String DELUXE = "Deluxe";
+    public static final String SUITE = "Suite";
 
-    private int Id;
-    private Size type;
+    private int id;
     private int price;
+    private String type;
     private int capacity;
     private int hotelId;
+    private final List<RoomAvailability> availabilities;
 
-    public Room(int Id, Size type, int price, int capacity,int hotelId) {
-        this.Id = Id;
+    public Room(int id, String type, int price, int capacity, int hotelId, List<RoomAvailability> availabilities) {
+        this.id = id;
         this.type = type;
         this.price = price;
         this.capacity = capacity;
         this.hotelId = hotelId; // tengja þetta við Id í hótel klasa
+        this.availabilities = availabilities;
     }
 
-    public Size getSize() {
+    public String getType() {
         return type;
     }
 
-    public void setSize(Size type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -48,27 +40,23 @@ public class Room {
         this.hotelId = hotelId;
     }
 
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int Id) {
-        this.Id = Id;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public int getCapacity() {
         return capacity;
     }
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public List<RoomAvailability> getAvailabilities() {
+        return availabilities;
     }
 }

@@ -1,6 +1,6 @@
 package hi.verkefni.traveldata;
 
-public class Airport {
+public class Airport implements Comparable<Airport> {
     private int id;
     private String shortName;
     private String name;
@@ -11,6 +11,10 @@ public class Airport {
         this.shortName = shortName;
         this.name = name;
         //this.location = location;
+    }
+
+    public int compareTo(Airport other) {
+        return Integer.compare(id, other.getId());
     }
 
     public int getId() {

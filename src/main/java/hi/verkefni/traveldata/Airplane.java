@@ -1,12 +1,21 @@
 package hi.verkefni.traveldata;
 
-public class Airplane {
-    private int id;
-    private Seat seat;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Airplane(int id, Seat seat) {
+public class Airplane implements Comparable<Airplane> {
+    private int id;
+    private final List<Seat> seats;
+    private final List<Integer> aisleArrangement;
+
+    public Airplane(int id, List<Seat> seats) {
         this.id = id;
-        this.seat = seat;
+        this.seats = seats;
+        this.aisleArrangement = new ArrayList<>();
+    }
+
+    public int compareTo(Airplane other) {
+        return Integer.compare(id, other.getId());
     }
 
     public int getId() {
@@ -17,11 +26,11 @@ public class Airplane {
         this.id = id;
     }
 
-    public Seat getSeat() {
-        return seat;
+    public List<Seat> getSeats() {
+        return seats;
     }
 
-    public void setSeat(Seat seat) {
-        this.seat = seat;
+    public List<Integer> getAisleArrangement() {
+        return aisleArrangement;
     }
 }

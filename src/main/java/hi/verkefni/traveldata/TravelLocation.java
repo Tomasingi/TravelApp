@@ -30,12 +30,12 @@ public class TravelLocation {
         return switch (location) {
             case 1 -> "Höfuðborgarsvæðið";
             case 2 -> "Suðurnes";
-            case 3 -> "Vesturland";
-            case 4 -> "Vestfirðir";
-            case 5 -> "Norðurland vestra";
-            case 6 -> "Norðurland eystra";
-            case 7 -> "Austurland";
-            case 8 -> "Suðurland";
+            case 3 -> "Suðurland";
+            case 4 -> "Austurland";
+            case 5 -> "Norðurland eystra";
+            case 6 -> "Norðurland vestra";
+            case 7 -> "Vestfirðir";
+            case 8 -> "Vesturland";
             default -> "";
         };
     }

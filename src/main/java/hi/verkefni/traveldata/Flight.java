@@ -7,7 +7,6 @@ public class Flight extends Reservation {
     private Departure departure;
     private Airplane plane;
 
-
     public Flight(int id, LocalDate date, int price, Arrival arrival, Departure departure, Airplane plane) {
         this.id = id;
         this.date = date;
@@ -17,7 +16,7 @@ public class Flight extends Reservation {
         this.plane = plane;
         this.beginningLocation = departure.getLocation();
         this.endLocation = arrival.getLocation();
-        this.name = departure.getAirport().getName() + " -> " + arrival.getAirport().getName();
+        this.name = departure.getAirport().getShortName() + " -> " + arrival.getAirport().getShortName();
     }
 
     public Arrival getArrival() {

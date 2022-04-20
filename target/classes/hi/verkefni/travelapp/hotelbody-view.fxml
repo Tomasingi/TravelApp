@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Accordion>
+        <panes>
+          <TitledPane animated="false" text="Standard">
+            <content>
+              <AnchorPane fx:id="fxStandards" minHeight="0.0" minWidth="0.0" />
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Deluxe">
+            <content>
+              <AnchorPane fx:id="fxDeluxes" minHeight="0.0" minWidth="0.0" />
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Suite">
+            <content>
+              <AnchorPane fx:id="fxSuites" minHeight="0.0" minWidth="0.0" />
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+   </children>
+</fx:root>

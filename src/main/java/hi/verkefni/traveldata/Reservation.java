@@ -1,5 +1,7 @@
 package hi.verkefni.traveldata;
 
+import hi.verkefni.travelapp.ReservationView;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,16 @@ public abstract class Reservation {
     protected TravelLocation beginningLocation;
     protected TravelLocation endLocation;
     protected LocalDate date;
+
+    protected ReservationView reservationView;
+
+    public ReservationView getReservationView() {
+        return reservationView;
+    }
+
+    public void setReservationView(ReservationView reservationView) {
+        this.reservationView = reservationView;
+    }
 
     public Integer getId() {
         return id;

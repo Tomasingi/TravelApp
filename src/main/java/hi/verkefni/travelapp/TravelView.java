@@ -44,7 +44,7 @@ public class TravelView extends VBox {
     private ImageView fxCart;
 
     private int subtotal = 0;
-    private List<Reservation> reservations;
+    private final List<Reservation> reservations = new ArrayList<>();
     private final List<Reservation> slice = new ArrayList<>();
     private final List<Reservation> selected = new ArrayList<>();
     private final Comparator<Reservation> compareByDate = Comparator.comparing(Reservation::getDate);
@@ -53,6 +53,15 @@ public class TravelView extends VBox {
     private TravelController travelController;
 
     public TravelView() {
+        reservations.addAll(DataFactory.selectAllDayTour());
+        reservations.addAll(DataFactory.selectAllFlight());
+        reservations.addAll(DataFactory.selectAllHotels());
+        for (Reservation reservation : reservations) {
+            ReservationView reservationView = new ReservationView(reservation, this);
+            reservation.setReservationView(reservationView);
+            reservationView.setOnMouseClicked(e -> selectHandler(reservationView, e));
+        }
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("travel-view.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -61,11 +70,6 @@ public class TravelView extends VBox {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-
-        reservations = new ArrayList<>();
-        reservations.addAll(DataFactory.selectAllDayTour());
-        reservations.addAll(DataFactory.selectAllFlight());
-        reservations.addAll(DataFactory.selectAllHotels());
     }
 
     public void initialize() {
@@ -85,7 +89,7 @@ public class TravelView extends VBox {
             // Check text
             boolean rightText = true;
 
-            Set<String> matchWords = new TreeSet<>();
+            Set<String> matchWords = new HashSet<>();
 
             String[] nameArray = r.getName().toLowerCase().split(" ");
             matchWords.addAll(Arrays.asList(nameArray));
@@ -143,6 +147,7 @@ public class TravelView extends VBox {
             view.setPrefWidth(fxMainView.getWidth());
             view.setLayoutY(offset);
             offset += view.getHeight() * 1.1;
+            view.resize();
         }
 
         offset = 0.0;
@@ -163,45 +168,53 @@ public class TravelView extends VBox {
             }
             view.updateSelected();
         }
-        int numClicks = e.getClickCount();
-        if (numClicks == 2) {
-            Reservation reservation = reservationView.getReservation();
-            if (!selected.contains(reservation)) {
-                selected.add(reservation);
-                selected.sort(compareByDate);
-                int index = selected.indexOf(reservation);
-                BookedView bookedView = new BookedView(reservation);
-                bookedView.link(this);
-                fxSelected.getChildren().add(index, bookedView);
-
-                subtotal += reservation.getPrice();
-                updateSubtotalText();
+        if (reservationView.getReservation() instanceof DayTour) {
+            int numClicks = e.getClickCount();
+            if (numClicks == 2) {
+                Reservation reservation = reservationView.getReservation();
+                addReservation(reservation);
             }
         }
     }
 
+    public void addReservation(Reservation reservation) {
+        if (!selected.contains(reservation)) {
+            selected.add(reservation);
+            selected.sort(compareByDate);
+            int index = selected.indexOf(reservation);
+            BookedView bookedView = new BookedView(reservation, this);
+            fxSelected.getChildren().add(index, bookedView);
+
+            subtotal += reservation.getPrice();
+            updateSubtotalText();
+        }
+    }
+
+    public void addReservation(SeatView seatView) {
+        addReservation(seatView.getSeat());
+    }
+
+    public void removeReservation(SeatView seatView) {
+        remove(seatView.getSeat());
+    }
+
+    public void addReservation(HotelRoomView hotelRoomView) {
+        BookedView bookedView = new BookedView(hotelRoomView.getRoomAvailability(), this);
+    }
+
     public void remove(Reservation reservation) {
         fxSelected.getChildren().remove(selected.indexOf(reservation));
+        if (reservation instanceof Seat) {
+            ((Seat) reservation).getSeatView().setAvailable();
+        }
         selected.remove(reservation);
     }
 
     private void renderSearch() {
         fxMainView.getChildren().clear();
-        int counter = 0;
         for (Reservation r : slice) {
-            ReservationView reservationView = new ReservationView(r);
-            reservationView.setOnMouseClicked(e -> selectHandler(reservationView, e));
-            reservationView.setIndex(counter);
-            fxMainView.getChildren().add(reservationView);
-            counter++;
-            if (counter >= 35) {
-                break;
-            }
+            fxMainView.getChildren().add(r.getReservationView());
         }
-    }
-
-    public void updateAmount() {
-        calculateSubtotal();
     }
 
     public void updateAmount(int amount) {

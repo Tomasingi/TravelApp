@@ -8,10 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -24,7 +21,7 @@ public class ReservationView extends VBox {
     @FXML
     private Label fxPrice;
     @FXML
-    private Label fxDescription;
+    private ImageView fxExpand;
     @FXML
     private ImageView fxLandshluti;
     @FXML
@@ -34,8 +31,12 @@ public class ReservationView extends VBox {
     @FXML
     private Label fxDates;
 
+    private ReservationBodyView fxBody;
+
     private Reservation reservation;
     private int index;
+    private boolean expanded = false;
+
     private TravelView travelView;
 
     private final SimpleBooleanProperty selectedProperty = new SimpleBooleanProperty();
@@ -43,7 +44,10 @@ public class ReservationView extends VBox {
         return selectedProperty;
     }
 
-    public ReservationView(Reservation reservation) {
+    public ReservationView(Reservation reservation, TravelView travelView) {
+        this.reservation = reservation;
+        this.travelView = travelView;
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("reservation-view.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -52,58 +56,41 @@ public class ReservationView extends VBox {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
 
-        this.reservation = reservation;
+    public void initialize() {
         setReservation();
+        fxExpand.setImage(new Image(getClass().getResourceAsStream("images/icons/expand.png")));
     }
 
     private void setImageFromLocation(ImageView imageView, int location) {
         switch (location) {
-            case TravelLocation.AUSTURLAND:
-                imageView.setImage(new Image(getClass().getResourceAsStream("images/locations/Austurland.png")));
-                break;
-            case TravelLocation.NORDURLAND_EYSTRA:
-                imageView.setImage(new Image(getClass().getResourceAsStream("images/locations/Nordurland_eystra.png")));
-                break;
-            case TravelLocation.NORDURLAND_VESTRA:
-                imageView.setImage(new Image(getClass().getResourceAsStream("images/locations/Nordurland_vestra.png")));
-                break;
-            case TravelLocation.SUDURLAND:
-                imageView.setImage(new Image(getClass().getResourceAsStream("images/locations/Sudurland.png")));
-                break;
-            case TravelLocation.SUDURNES:
-                imageView.setImage(new Image(getClass().getResourceAsStream("images/locations/Sudurnes.png")));
-                break;
-            case TravelLocation.VESTFIRDIR:
-                imageView.setImage(new Image(getClass().getResourceAsStream("images/locations/Vestfirdir.png")));
-                break;
-            case TravelLocation.VESTURLAND:
-                imageView.setImage(new Image(getClass().getResourceAsStream("images/locations/Vesturland.png")));
-                break;
-            case TravelLocation.HOFUDBORGARSVAEDID:
-                imageView.setImage(new Image(getClass().getResourceAsStream("images/locations/Hofudborgarsvaedid.png")));
-                break;
-            default:
-                break;
+            case TravelLocation.AUSTURLAND -> imageView.setImage(new Image(getClass().getResourceAsStream("images/small_locations/Austurland.png")));
+            case TravelLocation.NORDURLAND_EYSTRA -> imageView.setImage(new Image(getClass().getResourceAsStream("images/small_locations/Nordurland_eystra.png")));
+            case TravelLocation.NORDURLAND_VESTRA -> imageView.setImage(new Image(getClass().getResourceAsStream("images/small_locations/Nordurland_vestra.png")));
+            case TravelLocation.SUDURLAND -> imageView.setImage(new Image(getClass().getResourceAsStream("images/small_locations/Sudurland.png")));
+            case TravelLocation.SUDURNES -> imageView.setImage(new Image(getClass().getResourceAsStream("images/small_locations/Sudurnes.png")));
+            case TravelLocation.VESTFIRDIR -> imageView.setImage(new Image(getClass().getResourceAsStream("images/small_locations/Vestfirdir.png")));
+            case TravelLocation.VESTURLAND -> imageView.setImage(new Image(getClass().getResourceAsStream("images/small_locations/Vesturland.png")));
+            case TravelLocation.HOFUDBORGARSVAEDID -> imageView.setImage(new Image(getClass().getResourceAsStream("images/small_locations/Hofudborgarsvaedid.png")));
+            default -> {}
         }
     }
 
     private void setReservation() {
         if (reservation instanceof Flight) {
             fxMainIcon.setImage(new Image(getClass().getResourceAsStream("images/icons/flight.png")));
+            fxBody = new FlightBodyView(reservation, travelView);
         } else if (reservation instanceof Hotel) {
             fxMainIcon.setImage(new Image(getClass().getResourceAsStream("images/icons/hotel.png")));
+            fxBody = new HotelBodyView(reservation, travelView);
         } else if (reservation instanceof DayTour) {
             fxMainIcon.setImage(new Image(getClass().getResourceAsStream("images/icons/daytour.png")));
+            fxBody = new DayTourBodyView(reservation, travelView);
         } else return;
 
         fxName.setText(reservation.getName());
         fxPrice.setText(reservation.getPrice() + " ISK");
-        if (reservation instanceof DayTour) {
-            fxDescription.setText(((DayTour) reservation).getType() + ": " + reservation.getDescription());
-        } else {
-            fxDescription.setText(reservation.getDescription());
-        }
 
         setImageFromLocation(fxLandshluti, reservation.getBeginningLocation().getLocation());
 
@@ -118,6 +105,17 @@ public class ReservationView extends VBox {
         fxDates.setText(reservation.getDate().toString());
     }
 
+    @FXML
+    private void expandHandler() {
+        expanded = !expanded;
+        fxExpand.rotateProperty().setValue((fxExpand.rotateProperty().getValue() + 180) % 360);
+        if (expanded) {
+            this.getChildren().add(fxBody);
+        } else {
+            this.getChildren().remove(fxBody);
+        }
+    }
+
     public void updateSelected() {
         if (this.selectedProperty().getValue()) {
             this.backgroundProperty().setValue(new Background(new BackgroundFill(Color.ALICEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -126,8 +124,10 @@ public class ReservationView extends VBox {
         }
     }
 
-    public void link(TravelView travelView) {
-        this.travelView = travelView;
+    public void resize() {
+        if (reservation instanceof Hotel) {
+            ((HotelBodyView) fxBody).resize();
+        }
     }
 
     public void setIndex(int index) {

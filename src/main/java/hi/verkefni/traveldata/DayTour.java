@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class DayTour extends Reservation {
     private String type;
     private int availability;
-    private int hotelPickUp;//1 for yes/0 for no
+    private int hotelPickUp; // 1 for yes, 0 for no
     private int difficulty;
     private String language;
     private int review_id;
@@ -26,14 +26,6 @@ public class DayTour extends Reservation {
         this.difficulty = difficulty;
         this.language = language;
         this.review_id = review_id;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public TravelLocation getLocation() {
