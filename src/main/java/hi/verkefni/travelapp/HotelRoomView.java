@@ -1,7 +1,5 @@
 package hi.verkefni.travelapp;
 
-import hi.verkefni.traveldata.Reservation;
-import hi.verkefni.traveldata.Room;
 import hi.verkefni.traveldata.RoomAvailability;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
